@@ -108,10 +108,27 @@ Este trabalho tem o objetivo de aprimorar a arquitetura de redes neurais convolu
 \textual
 
 % ===============================================================
-\chapter{Introdução}
-\label{cap:introducao}
+\section{Introdução}
 
-Este trabalho propõe a continuidade e o aprofundamento de uma iniciação científica dedicada à classificação de câncer de mama em imagens de mamografia, com comparação entre modelos de redes neurais convolucionais clássicas e modelos híbridos quântico-clássicos. Na implementação atual da pesquisa, a classificação está organizada em três classes principais; no TCC, pretende-se manter esse ponto de partida e investigar, de forma incremental, a ampliação para um número maior de classes. Nesta proposta inicial, são apresentados o contexto do problema, a justificativa do estudo e os objetivos que orientarão o desenvolvimento do TCC.
+O câncer de mama permanece como um dos principais desafios da saúde pública contemporânea, tanto pela sua elevada incidência quanto pelo impacto social, clínico e econômico associado ao diagnóstico e ao tratamento da doença. Nesse cenário, a detecção precoce continua sendo um dos fatores mais importantes para ampliar as chances de intervenção em estágios iniciais e melhorar o prognóstico das pacientes. Entre os métodos de rastreamento disponíveis, a mamografia consolidou-se como uma das principais ferramentas para identificação de alterações suspeitas, sendo amplamente utilizada em programas de rastreamento populacional e na prática clínica. Apesar de sua relevância, a interpretação de mamografias permanece complexa, pois depende da análise de achados muitas vezes sutis, como massas, microcalcificações, distorções arquiteturais e assimetrias, além de estar sujeita à variabilidade interobservador e à alta carga de leitura dos especialistas (Abdelhafiz et al., 2019; Elías-Cabot et al., 2024).
+
+Durante muitos anos, sistemas tradicionais de \textit{computer-aided detection} (CAD) foram desenvolvidos com o objetivo de auxiliar radiologistas na leitura mamográfica. Entretanto, a literatura mostra que tais sistemas apresentaram ganhos limitados na prática, sobretudo em razão do aumento de falsos positivos e da dificuldade de melhorar substancialmente a acurácia diagnóstica. A partir do avanço do aprendizado profundo, especialmente das Redes Neurais Convolucionais (CNNs), esse panorama começou a mudar. Segundo Abdelhafiz et al. (2019), as CNNs passaram a ser empregadas em diversas tarefas relacionadas à mamografia, incluindo detecção de lesões, localização, classificação, recuperação de imagens e avaliação de risco, destacando-se como alternativas mais robustas do que os métodos CAD convencionais.
+
+Esse progresso também está relacionado à evolução das arquiteturas profundas no campo mais amplo da visão computacional. O trabalho de Szegedy et al. (2014), ao apresentar a arquitetura Inception/GoogLeNet, mostrou que era possível ampliar profundidade e largura de redes neurais mantendo eficiência computacional, estabelecendo um marco importante para tarefas complexas de classificação visual. Embora esse estudo não tenha sido desenvolvido para mamografia, ele representa um fundamento arquitetural importante para a consolidação de redes profundas mais eficientes, posteriormente adaptadas para aplicações em imagens médicas.
+
+No domínio específico da mama, os estudos mais recentes indicam que os modelos de aprendizado profundo já ultrapassaram a fase de simples prova de conceito e passaram a demonstrar utilidade em cenários clinicamente relevantes. Wu et al. (2020), por exemplo, desenvolveram uma rede profunda treinada e avaliada em mais de 200 mil exames de rastreamento, totalizando mais de 1 milhão de imagens, alcançando AUC de 0,895 para predição da presença de câncer na mama. Além disso, os autores mostraram que a combinação entre a predição da rede e a leitura humana pode superar o desempenho isolado de cada uma das partes. Em complemento, Elías-Cabot et al. (2024) avaliaram o uso de inteligência artificial como suporte à dupla leitura humana em um programa populacional real com mamografia digital e tomossíntese, observando aumento na taxa de detecção de câncer e no valor preditivo positivo dos recalls. Em conjunto, esses achados reforçam a relevância da IA como ferramenta de apoio à decisão médica em rastreamento mamográfico.
+
+Além do desempenho global dos modelos, a literatura recente também tem aprofundado o estudo de tarefas específicas e estratégias metodológicas mais refinadas. Pesapane et al. (2023) desenvolveram modelos de \textit{deep learning} voltados à detecção e classificação de microcalcificações, obtendo resultados elevados em sensibilidade, especificidade e AUC, o que evidencia a capacidade das redes neurais em lidar com achados pequenos e de alta importância clínica. Já Camurdan et al. (2025) propuseram uma abordagem baseada em \textit{patches}, \textit{curriculum learning} e anotações mistas, mostrando que é possível melhorar desempenho e explicabilidade mesmo com quantidade limitada de rótulos fortes. Em outra direção, Yoshitsugu, Kishimoto e Takemura (2026) exploraram a estratificação por presença de região de interesse (ROI), indicando que a organização do problema de classificação também influencia diretamente a qualidade dos resultados em tarefas normal/anormal e benigno/maligno.
+
+Outro fator decisivo para o avanço da área é a disponibilidade de bases de dados amplas, heterogêneas e bem anotadas. Uma limitação recorrente da literatura em mamografia está justamente na fragmentação dos conjuntos de dados, que variam quanto ao formato, qualidade, densidade de anotações, equilíbrio entre classes e representatividade populacional. Nesse contexto, Bhole, Suba e Parekh (2025) propuseram o Mammo-Bench, um \textit{benchmark} de grande escala construído a partir da integração de sete bases distintas, reunindo 74.436 imagens de 26.500 pacientes de sete países. Os autores mostram que uma base mais ampla e padronizada contribui para o treinamento de modelos mais robustos e favorece comparações experimentais mais consistentes. Para pesquisas comparativas, esse tipo de iniciativa é particularmente importante, pois reduz a influência de vieses associados a bases pequenas, muito específicas ou fortemente desbalanceadas.
+
+Paralelamente à consolidação das abordagens clássicas, a computação quântica passou a ser investigada como uma alternativa emergente para problemas de aprendizado de máquina. No contexto do \textit{Quantum Machine Learning} (QML), diferentes autores têm proposto modelos híbridos que combinam etapas clássicas de extração de características com circuitos quânticos parametrizados. Schetakis et al. (2022) discutem arquiteturas híbridas para classificação em conjuntos de dados ruidosos, combinando redes híbridas, circuitos paramétricos e \textit{data re-uploading}. Watkins, Chen e Yoo (2023), por sua vez, acrescentam a esse debate a questão da privacidade, propondo um modelo híbrido quântico-clássico treinado com privacidade diferencial. Tais estudos mostram que o campo quântico vem avançando conceitualmente, ainda que em cenários controlados e majoritariamente simulados.
+
+Mais recentemente, arquiteturas híbridas voltadas a imagens passaram a explorar a integração entre operações convolucionais clássicas e componentes quânticos treináveis. Long et al. (2025), com o modelo QCQ-CNN, propõem uma arquitetura composta por um filtro quântico, um bloco clássico raso e um classificador quântico variacional, defendendo que a inclusão de parâmetros quânticos treináveis pode ampliar a expressividade do modelo. Em outra linha, Daka e Bhattacharyya (2026) apresentam o No-QCNN, uma arquitetura que procura operar com um fluxo quântico-convolucional mais direto, especialmente em cenários de poucos dados. Ainda assim, os próprios autores reconhecem que os resultados permanecem limitados por fatores como escala reduzida, sobrecarga de codificação de dados, ruído de amostragem e restrições inerentes aos dispositivos NISQ. Além disso, trabalhos como o de Egginger, Sakhnenko e Lorenz (2024) mostram que métodos quânticos, como kernels quânticos, são fortemente dependentes da escolha de hiperparâmetros e da adequação entre o \textit{feature map} e o conjunto de dados, o que reforça a necessidade de análises empíricas cuidadosas antes de qualquer alegação de vantagem prática.
+
+Dessa forma, observa-se na literatura uma assimetria importante: enquanto os modelos clássicos baseados em CNNs já apresentam resultados maduros em mamografia, inclusive com evidências de aplicação clínica real, os modelos híbridos quântico-clássicos ainda se encontram em estágio mais exploratório, com validações predominantemente realizadas em bases pequenas, tarefas simplificadas ou ambientes simulados. Essa diferença não diminui o interesse científico das abordagens quânticas; ao contrário, evidencia a existência de uma lacuna relevante para pesquisa. Ainda faltam estudos comparativos conduzidos de maneira controlada, utilizando o mesmo problema, as mesmas classes diagnósticas e critérios experimentais equivalentes, de modo a permitir uma avaliação mais justa entre arquiteturas clássicas e híbridas.
+
+É nesse contexto que se insere o presente trabalho. Esta pesquisa propõe uma análise comparativa entre Redes Neurais Convolucionais clássicas e arquiteturas híbridas quântico-clássicas aplicadas à classificação de mamografias digitais em três categorias diagnósticas: \textit{Normal}, \textit{Benigno} e \textit{Maligno}. O objetivo é investigar, a partir de um \textit{baseline} clássico robusto, a viabilidade técnica, o desempenho preditivo e as limitações computacionais de um modelo híbrido quântico-clássico, mantendo controle sobre as principais variáveis experimentais. Assim, o estudo busca contribuir tanto para a literatura de IA aplicada à mamografia quanto para a discussão, ainda em aberto, sobre o real potencial de integração entre computação quântica e diagnóstico por imagem.
 
 \section{Contexto}
 \label{sec:contexto}
@@ -154,10 +171,99 @@ Investigar comparativamente o desempenho de CNNs clássicas e modelos híbridos 
 \end{enumerate}
 
 % ===============================================================
-\chapter{Revisão Bibliográfica}
-\label{cap:revisao}
+\section{Revisão bibliográfica}
 
-\subsection{}
+\subsection{Inteligência artificial e mamografia}
+
+A aplicação de inteligência artificial à mamografia surge como resposta às limitações dos sistemas tradicionais de detecção assistida por computador, especialmente em função das elevadas taxas de falsos positivos, da complexidade visual dos exames e da grande carga de leitura imposta aos radiologistas. Nesse cenário, as redes neurais convolucionais passaram a ocupar papel central, pois são capazes de aprender representações diretamente das imagens e têm sido utilizadas em tarefas como detecção de lesões, classificação, recuperação de imagens e avaliação de risco.
+
+Abdelhafiz et al. \cite{abdelhafiz2019} realizaram uma revisão ampla sobre o uso de redes neurais convolucionais em mamografia, reunindo 83 estudos e destacando como boas práticas o pré processamento das imagens, o uso de múltiplas vistas, \textit{transfer learning}, \textit{data augmentation}, \textit{batch normalization} e \textit{dropout}. Além disso, os autores ressaltam que a disponibilidade de bases públicas bem anotadas é um fator decisivo para o avanço da área, tanto para treinamento quanto para avaliação comparativa dos modelos.
+
+\subsection{Fundamentos das arquiteturas convolucionais}
+
+O progresso das aplicações médicas com aprendizado profundo está diretamente relacionado ao desenvolvimento anterior das arquiteturas clássicas de visão computacional. Entre os trabalhos fundacionais mais importantes, Szegedy et al. \cite{szegedy2014} propuseram a arquitetura Inception/GoogLeNet, baseada no aumento simultâneo da profundidade e da largura da rede com controle do custo computacional. Essa arquitetura demonstrou que era possível elevar o desempenho mantendo viabilidade prática de processamento e memória, aspecto especialmente importante em imagens médicas de alta resolução.
+
+A relevância desse tipo de contribuição para a mamografia é evidente, pois grande parte dos estudos posteriores reutilizou ou adaptou arquiteturas como GoogLeNet, VGG e ResNet em tarefas de classificação, detecção e apoio ao diagnóstico. Dessa forma, os avanços da visão computacional geral forneceram a base metodológica para a evolução dos sistemas de inteligência artificial aplicados à imagem mamária.
+
+\subsection{Bases de dados em mamografia}
+
+A literatura mostra que a qualidade e a escala das bases de dados são determinantes para o desempenho dos modelos de aprendizado profundo em mamografia. Abdelhafiz et al. \cite{abdelhafiz2019} já destacavam a relevância de bases como DDSM, INbreast, MIAS e BCDR, observando que diferenças em resolução, formato, número de imagens e tipo de anotação influenciam diretamente os resultados dos estudos.
+
+Mais recentemente, Bhole, Suba e Parekh \cite{bhole2025} propuseram o Mammo-Bench, uma base unificada composta por 74.436 imagens provenientes de 26.500 pacientes de sete países. O conjunto foi construído a partir da integração de sete bases distintas e passou por uma cadeia de pré processamento para padronização das imagens. Segundo os autores, o treinamento sobre essa base ampla melhora o desempenho da classificação, inclusive nas classes minoritárias, tornando o Mammo-Bench uma referência importante para estudos comparativos e para o desenvolvimento de sistemas mais robustos.
+
+Esse tipo de benchmark é particularmente relevante para pesquisas em mamografia, pois reduz a dependência de conjuntos pequenos, heterogêneos e pouco comparáveis entre si. Além disso, favorece análises mais confiáveis sobre generalização e transferibilidade dos modelos.
+
+\subsection{Aprendizado profundo em rastreamento mamográfico}
+
+A literatura também evidencia a transição de estudos experimentais para aplicações em larga escala e com maior proximidade da prática clínica. Wu et al. \cite{wu2020} apresentaram uma rede profunda treinada e avaliada em mais de 200 mil exames, totalizando mais de 1 milhão de imagens, alcançando AUC de 0{,}895 na predição da presença de câncer. O modelo proposto combina informações locais e globais por meio de uma arquitetura em dois estágios, integrando aprendizado em nível de \textit{patch} e em nível de mama.
+
+Os autores também demonstraram que a combinação entre a predição da rede e a leitura do radiologista supera, em média, o desempenho isolado de cada um. Esse resultado é particularmente relevante porque aponta para a IA não como substituta imediata do especialista, mas como ferramenta de apoio capaz de melhorar a tomada de decisão clínica.
+
+\subsection{Uso clínico real da IA em programas de rastreamento}
+
+Além dos estudos em larga escala, trabalhos recentes vêm avaliando a IA diretamente em cenários reais de rastreamento. Elías Cabot et al. \cite{eliascabot2024} analisaram o impacto do uso de IA como suporte à dupla leitura humana em um programa populacional de rastreamento com mamografia digital e tomossíntese. Os resultados mostraram aumento da taxa de detecção de câncer, do valor preditivo positivo e da taxa de \textit{recall}, indicando que a utilização da IA como ferramenta de apoio pode contribuir positivamente para o desempenho do rastreamento mamográfico.
+
+Esse tipo de evidência é importante porque mostra que a inteligência artificial em mamografia já ultrapassou o estágio de prova de conceito e passou a demonstrar impacto mensurável em ambiente clínico real. Assim, a literatura recente reforça que a discussão já não se limita apenas à acurácia de modelos em bases experimentais, mas também à sua integração prática nos fluxos de trabalho radiológicos.
+
+\subsection{Abordagens baseadas em ROI e imagem inteira}
+
+A formulação do problema de classificação mamográfica também tem sido discutida de maneira mais refinada pela literatura recente. Yoshitsugu, Kishimoto e Takemura \cite{yoshitsugu2026} analisam a diferença entre abordagens baseadas em regiões de interesse e abordagens baseadas na imagem inteira. Em seu estudo, os autores testam a hipótese de que estratificar mamografias segundo a presença ou ausência de ROI melhora a classificação em tarefas do tipo normal/anormal e benigno/maligno.
+
+Utilizando arquiteturas como ResNet, EfficientNet, Swin Transformer, ConvNeXt e MobileNet, os autores mostraram que a estratificação por ROI se torna mais vantajosa à medida que o volume de dados cresce. Esse resultado é relevante porque desloca a discussão de apenas qual arquitetura utilizar para uma questão metodológica mais profunda: como estruturar a tarefa de aprendizagem de forma coerente com a natureza visual e clínica do problema.
+
+\subsection{Eficiência de anotação e explicabilidade}
+
+A escassez de anotações densas e a necessidade de modelos mais interpretáveis são dois desafios centrais na aplicação de aprendizado profundo à mamografia. Camurdan et al. \cite{camurdan2025} propuseram um modelo \textit{patch based} com \textit{curriculum learning}, combinando rótulos fracos e fortes para detecção de câncer de mama. Os autores mostraram que mesmo com apenas 20\% das anotações fortes o modelo já supera o \textit{baseline} treinado apenas com rótulos em nível de imagem, melhorando o \textit{F1-score} e a sobreposição entre \textit{Grad-CAM} e a verdade de solo.
+
+Esse resultado é importante porque enfrenta simultaneamente dois gargalos da área: a necessidade de métodos mais eficientes em termos de anotação e a demanda por explicabilidade. A melhora na correspondência entre os mapas de ativação e as regiões realmente relevantes fortalece a confiança clínica sobre o comportamento do modelo.
+
+Ainda que em outra modalidade de imagem médica, Kugelman et al. \cite{kugelman2024} mostraram em imagens de OCT que a combinação de aumento de dados com GANs e aprendizado semissupervisionado melhora o desempenho especialmente em cenários com poucos dados rotulados. Embora não seja um estudo de mamografia, esse trabalho reforça a justificativa metodológica para o uso de estratégias de enriquecimento de dados e aproveitamento de exemplos não rotulados em imagens médicas.
+
+\subsection{IA em tarefas de controle de qualidade mamográfico}
+
+A aplicação de inteligência artificial à mamografia não se restringe à classificação de lesões. Sundell et al. \cite{sundell2022} desenvolveram um sistema baseado em CNN para pontuação automática de imagens fantoma no controle de qualidade mamográfico. O estudo comparou diferentes arquiteturas e encontrou melhor desempenho em uma rede com seis camadas convolucionais, atingindo cerca de 95\% de acurácia e boa concordância com revisores humanos.
+
+Esse tipo de contribuição amplia a compreensão do papel da IA em mamografia, mostrando que ela pode ser utilizada também na automação de processos técnicos e na padronização de rotinas de garantia de qualidade dos equipamentos. Assim, a inteligência artificial aparece não apenas como ferramenta diagnóstica, mas também como recurso de suporte operacional.
+
+\subsection{Aprendizado de máquina quântico: fundamentos e perspectivas}
+
+Quando a discussão se desloca para a computação quântica aplicada ao aprendizado de máquina, a literatura ainda se encontra em estágio mais exploratório, mas já apresenta fundamentos conceituais relevantes. Schetakis et al. \cite{schetakis2022} revisaram diferentes \textit{frameworks} de aprendizado de máquina quântico e propuseram arquiteturas híbridas para classificação binária em bases ruidosas, combinando redes híbridas, circuitos paramétricos e \textit{data re uploading}. Os autores observaram que seus modelos apresentaram melhor comportamento de aprendizagem sob ruído assimétrico do que outros classificadores quânticos existentes.
+
+Em outra direção, Watkins, Chen e Yoo \cite{watkins2023} introduziram um modelo híbrido quântico clássico com privacidade diferencial, demonstrando que é possível preservar a confidencialidade dos dados sem perda expressiva de acurácia. Esse aspecto é particularmente importante no contexto médico, em que privacidade, sensibilidade dos dados e conformidade ética são fatores estruturais do problema.
+
+\subsection{Arquiteturas híbridas quântico clássicas para classificação de imagens}
+
+No nível arquitetural, os estudos mais recentes em visão computacional quântica buscam aproximar os modelos híbridos de tarefas reais de classificação de imagens. Long et al. \cite{long2025} propuseram o modelo QCQ-CNN, que combina filtro quântico, bloco clássico raso e classificador quântico variacional treinável. Segundo os autores, a inclusão de parâmetros quânticos treináveis aumenta a expressividade do classificador e melhora a robustez sob ruído e número finito de medições.
+
+Em outra linha, Daka e Bhattacharyya \cite{daka2026} apresentaram o No-QCNN, um modelo híbrido com fluxo de convolução e \textit{pooling} quântico mais direto, sem inserir um bloco clássico convolucional intermediário. Os resultados mostraram ganho de generalização em tarefa multiclasse com poucos dados, superando uma CNN clássica nesse cenário específico. Entretanto, o modelo clássico ainda se mostrou superior em tarefas binárias mais simples e em contextos com maior escala de dados.
+
+Esses estudos indicam que os modelos quânticos atuais podem ser mais promissores em cenários de poucos dados, maior correlação estrutural e maior risco de sobreajuste clássico, mas ainda não demonstram superioridade ampla em aplicações médicas realistas e de grande escala.
+
+\subsection{Métodos de kernel quântico e sensibilidade a hiperparâmetros}
+
+A literatura de métodos de kernel quântico reforça a ideia de que o desempenho quântico depende fortemente da configuração do modelo. Egginger, Sakhnenko e Lorenz \cite{egginger2024} investigaram como diferentes hiperparâmetros afetam o desempenho empírico e a capacidade de generalização de kernels quânticos em 11 bases de dados. Os autores mostraram que a escolha dos hiperparâmetros ligados ao \textit{feature map} quântico e à projeção parcial dos qubits influencia fortemente tanto a acurácia quanto a diferença geométrica entre kernels clássicos e quânticos.
+
+Isso sugere que uma eventual vantagem quântica não depende apenas da existência de um modelo quântico, mas também da compatibilidade entre dados, mapa de características e configuração do circuito. Assim, a literatura aponta que o desempenho quântico ainda é fortemente condicionado por fatores de projeto que precisam ser mais bem compreendidos.
+
+\subsection{Outras frentes do aprendizado quântico}
+
+O aprendizado de máquina quântico não se limita à classificação supervisionada. Dalla Pozza et al. \cite{dallapozza2022} propuseram um modelo de aprendizado por reforço quântico aplicado ao problema do labirinto, combinando dinâmica quântica com redes neurais clássicas profundas. Os autores observaram que o agente aprende estratégias eficazes tanto no regime clássico quanto no quântico, com indícios de aceleração em curtos intervalos de tempo, mesmo na presença de ruído.
+
+Embora esse estudo não trate de mamografia, ele é relevante para mostrar que o aprendizado quântico compõe um campo mais amplo, ainda em consolidação, com múltiplas frentes teóricas e experimentais. Esse panorama ajuda a contextualizar os modelos híbridos usados em classificação de imagens como parte de um movimento maior dentro da computação quântica aplicada.
+
+\subsection{Eficiência computacional e viabilidade prática}
+
+Também merece destaque a discussão sobre viabilidade computacional e eficiência de execução, especialmente em cenários com limitação de memória e processamento. Nesse contexto, Zandieh et al. \cite{zandieh2025} propuseram o TurboQuant, um esquema de quantização vetorial online com taxa de distorção próxima do ótimo. Embora o trabalho não trate diretamente de mamografia, ele apresenta uma contribuição relevante ao mostrar que é possível reduzir custos computacionais e de memória preservando qualidade em tarefas de quantização de \textit{KV cache} e busca vetorial.
+
+Em pesquisas que envolvem modelos extensos, processamento local e restrições de hardware, esse tipo de contribuição pode servir de base para discussões sobre viabilidade de execução, compressão de modelos e eficiência inferencial, aspectos importantes quando se considera a implementação de sistemas avançados fora de ambientes computacionais ideais.
+
+\subsection{Síntese da revisão e lacuna de pesquisa}
+
+Com base nos estudos analisados, observa que a literatura de mamografia com aprendizado profundo já apresenta maturidade em quatro frentes principais: construção de bases amplas e robustas, desenvolvimento de arquiteturas profundas eficientes, incorporação de explicabilidade e demonstração de valor clínico em cenários reais. Em contraste, a literatura de aprendizado de máquina quântico ainda se encontra predominantemente em fase exploratória, com muitos estudos validados em conjuntos pequenos, bases sintéticas ou problemas simplificados.
+
+Embora existam avanços importantes em robustez, privacidade, kernels e arquiteturas híbridas, ainda faltam estudos comparativos rigorosos que coloquem modelos clássicos e híbridos quântico-clássicos frente a frente em tarefas mais próximas da mamografia real, com múltiplas classes, bases amplas e métricas clínicas e computacionais consistentes.
+
+Dessa forma, a principal lacuna identificada nesta revisão bibliográfica está na ausência de comparações sistemáticas entre modelos clássicos e híbridos em tarefas mamográficas de maior realismo experimental. Essa lacuna torna pertinente a realização de um estudo comparativo entre CNNs clássicas e modelos híbridos quântico-clássicos aplicados à classificação de mamografias, especialmente quando conduzido sobre bases robustas e com critérios experimentais bem controlados. Assim, o trabalho se justifica não apenas pela atualidade do tema, mas também por responder a uma questão ainda em aberto na literatura recente.
 
 
 \section{Referencial teórico}

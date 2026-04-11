@@ -72,7 +72,7 @@ Para compilar o documento, execute os seguintes comandos na ordem:
 
 ```bash
 pdflatex tcc_math.tex
-bibtex tcc
+bibtex tcc_math
 pdflatex tcc_math.tex
 pdflatex tcc_math.tex
 ```
