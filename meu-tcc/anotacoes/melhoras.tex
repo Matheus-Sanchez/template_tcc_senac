@@ -1,0 +1,324 @@
+% ---------------------------------------------------------------
+% TCC1 - SENAC SANTO AMARO
+% Versão adaptada para o projeto do Matheus
+% Tema: classificação de câncer de mama em mamografias
+% ---------------------------------------------------------------
+
+\documentclass[
+    12pt,
+    openright,
+    oneside,
+    a4paper,
+    english,
+    brazil
+]{abntex2}
+
+% ---------------------------------------------------------------
+% PACOTES
+% ---------------------------------------------------------------
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lastpage}
+\usepackage{indentfirst}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{amsmath,amssymb}
+\usepackage{pgfgantt}
+\usepackage[brazilian,hyperpageref]{backref}
+\usepackage[alf]{abntex2cite}
+\usepackage[margin=3cm]{geometry}
+
+% ---------------------------------------------------------------
+% CONFIGURAÇÕES DO PDF
+% ---------------------------------------------------------------
+\makeatletter
+\hypersetup{
+    pdftitle={\@title},
+    pdfauthor={\@author},
+    pdfsubject={TCC1 - SENAC Santo Amaro},
+    pdfcreator={LaTeX with abnTeX2},
+    pdfkeywords={tcc}{senac}{câncer de mama}{cnn}{computação quântica},
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    filecolor=magenta,
+    urlcolor=blue,
+    bookmarksdepth=4
+}
+\makeatother
+
+\definecolor{blue}{RGB}{41,5,195}
+
+% ---------------------------------------------------------------
+% INFORMAÇÕES DO DOCUMENTO
+% ---------------------------------------------------------------
+\titulo{Classificação de câncer de mama em mamografias: um estudo comparativo entre CNNs clássicas e híbridas quântico-clássicas}
+\autor{Matheus Sanchez Duda}
+\local{São Paulo}
+\data{2026}
+\orientador{Prof. [Nome do Orientador]}
+% \coorientador{Prof. [Nome do Coorientador]}
+
+\instituicao{%
+  SENAC -- Serviço Nacional de Aprendizagem Comercial
+  \par
+  Unidade Santo Amaro
+  \par
+  Bacharelado em Ciência da Computação
+}
+
+\tipotrabalho{Trabalho de Conclusão de Curso I}
+
+\preambulo{Proposta de Trabalho de Conclusão de Curso apresentada ao SENAC Santo Amaro como requisito parcial para aprovação na disciplina de TCC1 do curso de Ciência da Computação.}
+
+\makeindex
+
+\begin{document}
+\selectlanguage{brazil}
+\frenchspacing
+
+% ---------------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ---------------------------------------------------------------
+\pretextual
+\imprimircapa
+\imprimirfolhaderosto
+
+\begin{resumo}
+
+Este trabalho tem o objetivo de aprimorar a arquitetura de redes neurais convolucionais feita anteriormente, que conseguia classificar imagens de cancer de mama em três classes (normal, benigna, maligna) com uma precisao de cerca de 70 por cento na media para as três classes. Agora deve ser feito a melhoria nos dois tipos de modelos para o classico conseguir clasificar mais exames radiograficos, e do modelo quântico poder ter resultados além do chute aleatório permitindo uma comparação mais robusta entre os dois tipos de modelos. 
+\vspace{\onelineskip}
+\noindent
+\textbf{Palavras-chave}: câncer de mama. mamografia. redes neurais convolucionais. computação quântica. aprendizado de máquina quântico.
+\end{resumo}
+
+\pdfbookmark[0]{\contentsname}{toc}
+\tableofcontents*
+\cleardoublepage
+
+% ---------------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% ---------------------------------------------------------------
+\textual
+% ---------------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% ---------------------------------------------------------------
+\textual
+
+% ---------------------------------------------------------------
+% CAPÍTULO 1 - INTRODUÇÃO
+% ---------------------------------------------------------------
+\chapter{Introdução}
+
+\section{Contexto}
+
+% Apresente o cenário geral do trabalho:
+% câncer de mama -> mamografia -> dificuldades da análise -> IA -> CNNs -> QML.
+
+\section{Problema de pesquisa}
+
+% Descreva o problema central:
+% ainda há incerteza sobre a viabilidade de modelos híbridos quântico-clássicos
+% em tarefas realistas de classificação de mamografias.
+
+\section{Justificativa}
+
+% Explique a relevância social, acadêmica e técnica do trabalho.
+
+\section{Pergunta de pesquisa}
+
+% Exemplo:
+% Modelos híbridos quântico-clássicos conseguem apresentar desempenho preditivo,
+% estabilidade experimental e viabilidade computacional competitivos em relação
+% a uma CNN clássica na classificação de mamografias digitais?
+
+\section{Objetivo geral}
+
+% Exemplo:
+% Comparar experimentalmente o desempenho, a estabilidade e o custo computacional
+% de uma CNN clássica e de uma arquitetura híbrida quântico-clássica na classificação
+% de mamografias digitais.
+
+\section{Objetivos específicos}
+
+\begin{enumerate}
+    \item Definir a base de dados e as classes diagnósticas utilizadas no experimento;
+    \item Preparar um protocolo padronizado de pré-processamento, divisão dos dados, treinamento, validação e teste;
+    \item Aprimorar uma CNN clássica para servir como modelo de referência;
+    \item Projetar uma arquitetura híbrida quântico-clássica compatível com as limitações de simulação disponíveis;
+    \item Investigar configurações do modelo híbrido, como número de qubits, feature map, profundidade do circuito e estratégia de codificação;
+    \item Comparar os modelos por meio de métricas como acurácia, precisão, recall, F1-score, AUC e matriz de confusão;
+    \item Avaliar tempo de treinamento, uso de memória, estabilidade entre execuções e limitações de escalabilidade;
+    \item Discutir criticamente as vantagens, limitações e condições de viabilidade da abordagem híbrida quântico-clássica.
+\end{enumerate}
+
+\section{Hipótese ou pressuposto de pesquisa}
+
+% Exemplo:
+% A hipótese deste trabalho é que o desempenho de modelos híbridos quântico-clássicos
+% em mamografias depende fortemente da forma de codificação dos dados, da dimensão
+% do vetor de características projetado para o circuito quântico, do número de qubits
+% e da profundidade do circuito.
+
+\section{Delimitações do trabalho}
+
+% Explique o que o trabalho não pretende fazer:
+% não será diagnóstico clínico real;
+% não será validado em hospital;
+% usará simulador quântico;
+% começará com três classes: normal, benigno e maligno;
+% ampliação de classes dependerá dos rótulos disponíveis.
+
+
+% ---------------------------------------------------------------
+% CAPÍTULO 2 - REVISÃO BIBLIOGRÁFICA
+% ---------------------------------------------------------------
+\chapter{Revisão Bibliográfica}
+
+\section{Metodologia da pesquisa bibliográfica}
+
+% Descreva bases consultadas, palavras-chave, critérios de inclusão e exclusão,
+% período de publicação e forma de seleção dos artigos.
+
+\section{Câncer de mama, mamografia e classificação diagnóstica}
+
+% Explique os conceitos médicos mínimos necessários para o leitor entender
+% o problema computacional.
+
+\section{Bases de dados em mamografia}
+
+% Apresente bases públicas e benchmarks, como Mammo-Bench, CBIS-DDSM,
+% INbreast ou outras bases relevantes ao trabalho.
+
+\section{Aprendizado profundo e CNNs em mamografia}
+
+% Explique redes neurais convolucionais, extração automática de características,
+% transfer learning, overfitting, data augmentation e uso em mamografias.
+
+\section{Modelos híbridos quântico-clássicos e QML}
+
+% Explique conceitos fundamentais:
+% qubits, circuitos variacionais parametrizados, feature maps,
+% codificação de dados, data re-uploading, barren plateaus e limitações de simulação.
+
+\section{Trabalhos relacionados}
+
+% Apresente os trabalhos mais próximos do seu problema.
+% Não organize apenas por autor; compare problema, método, resultados,
+% limitações e diferença em relação ao seu TCC.
+
+\section{Síntese da lacuna de pesquisa}
+
+% Feche a revisão mostrando a lacuna:
+% CNNs em mamografia já são mais maduras, enquanto modelos híbridos
+% ainda carecem de comparações controladas em bases realistas.
+
+
+% ---------------------------------------------------------------
+% CAPÍTULO 3 - DESENVOLVIMENTO / PROPOSTA METODOLÓGICA
+% ---------------------------------------------------------------
+\chapter{Desenvolvimento: proposta metodológica}
+
+\section{Tipo de pesquisa}
+
+% Exemplo:
+% Esta pesquisa é de natureza aplicada, com abordagem quantitativa,
+% experimental e comparativa.
+
+\section{Visão geral da solução proposta}
+
+% Apresente o pipeline geral:
+% base de dados -> pré-processamento -> modelo clássico -> modelo híbrido
+% -> avaliação -> comparação -> análise crítica.
+
+\section{Base de dados e definição das classes}
+
+% Defina a base principal e as classes:
+% normal, benigno e maligno.
+% Explique se haverá ou não ampliação para mais classes.
+
+\section{Pré-processamento e preparação dos dados}
+
+% Descreva redimensionamento, normalização, balanceamento,
+% aumento de dados, divisão treino/validação/teste e prevenção de vazamento de dados.
+
+\section{Modelo clássico de referência}
+
+% Descreva a CNN clássica usada como baseline.
+% Explique se será uma CNN customizada, ResNet, EfficientNet ou outra arquitetura.
+
+\section{Modelo híbrido quântico-clássico}
+
+% Descreva a arquitetura híbrida:
+% extrator clássico de características -> projeção para qubits
+% -> circuito quântico parametrizado -> medição -> classificador final.
+
+\section{Diagnóstico do modelo quântico anterior}
+
+% Explique que experimentos anteriores ficaram próximos do chute aleatório
+% e que o TCC irá investigar possíveis causas:
+% feature map, número de qubits, profundidade, codificação dos dados,
+% otimização, barren plateaus e custo de simulação.
+
+\section{Protocolo experimental}
+
+% Defina como os experimentos serão conduzidos:
+% mesma base, mesmas classes, mesmas divisões, mesmas métricas,
+% número de épocas, early stopping, seeds e registro dos resultados.
+
+\section{Métricas de avaliação}
+
+% Liste e justifique as métricas:
+% acurácia, precisão, recall, F1-score, AUC, matriz de confusão,
+% tempo de treinamento, uso de memória e estabilidade entre execuções.
+
+\section{Critérios de validação}
+
+% Explique quando o modelo será considerado viável:
+% superar desempenho aleatório, apresentar estabilidade,
+% alcançar desempenho competitivo e ter custo computacional justificável.
+
+\section{Riscos e limitações}
+
+% Liste limitações:
+% hardware, custo exponencial da simulação, poucos qubits,
+% ausência de vantagem quântica, qualidade dos rótulos,
+% overfitting, ausência de validação clínica e vazamento por paciente.
+
+\section{Cronograma}
+
+% Você pode inserir uma tabela ou um diagrama de Gantt.
+% Exemplo simples de tabela:
+
+\begin{table}[htb]
+\centering
+\caption{Cronograma preliminar de desenvolvimento do TCC}
+\label{tab:cronograma}
+\begin{tabular}{|p{7cm}|c|c|c|c|}
+\hline
+\textbf{Atividade} & \textbf{Mês 1} & \textbf{Mês 2} & \textbf{Mês 3} & \textbf{Mês 4} \\ \hline
+Revisão e ajuste da fundamentação teórica & X &  &  &  \\ \hline
+Definição da base de dados e das classes & X &  &  &  \\ \hline
+Pré-processamento e organização dos dados & X & X &  &  \\ \hline
+Implementação e ajuste da CNN clássica &  & X &  &  \\ \hline
+Implementação do modelo híbrido quântico-clássico &  & X & X &  \\ \hline
+Execução dos experimentos comparativos &  &  & X &  \\ \hline
+Análise dos resultados e métricas &  &  & X & X \\ \hline
+Redação final e revisão do TCC &  &  &  & X \\ \hline
+\end{tabular}
+\fonte{Elaborado pelo autor.}
+\end{table}
+
+
+% ---------------------------------------------------------------
+% ELEMENTOS PÓS-TEXTUAIS
+% ---------------------------------------------------------------
+\postextual
+
+\bibliography{bibliografia}
