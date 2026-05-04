@@ -199,10 +199,28 @@ Este trabalho tem o objetivo de aprimorar a arquitetura de redes neurais convolu
 % Descreva bases consultadas, palavras-chave, critérios de inclusão e exclusão,
 % período de publicação e forma de seleção dos artigos.
 
+A pesquisa bibliográfica deste trabalho será conduzida com o objetivo de fundamentar teoricamente e metodologicamente o estudo comparativo entre redes neurais convolucionais clássicas e modelos híbridos quântico-clássicos aplicados à classificação de câncer de mama em imagens de mamografia.
+
+As buscas serão realizadas em bases científicas nacionais e internacionais, incluindo Google Scholar, PubMed, IEEE Xplore, ACM Digital Library, Scopus, SciELO e Periódicos CAPES. A escolha dessas bases se justifica pela abrangência de publicações nas áreas de Ciência da Computação, Inteligência Artificial, visão computacional, imagens médicas, radiologia e computação quântica. Também poderão ser consultados repositórios de pré-publicações, como arXiv, medRxiv e bioRxiv, quando o trabalho apresentar relevância direta para o tema, especialmente em tópicos recentes ainda em consolidação.
+
+Serão utilizadas palavras-chave em português e inglês, combinadas por meio de operadores booleanos. Entre os principais termos estão: \textit{``câncer de mama''}, \textit{``mamografia''}, \textit{``classificação de imagens médicas''}, \textit{``redes neurais convolucionais''}, \textit{``aprendizado profundo''}, \textit{``computação quântica''}, \textit{``aprendizado de máquina quântico''}, \textit{``modelos híbridos quântico-clássicos''}, \textit{``breast cancer''}, \textit{``mammography''}, \textit{``mammogram''}, \textit{``convolutional neural network''}, \textit{``deep learning''}, \textit{``medical image classification''}, \textit{``quantum machine learning''}, \textit{``quantum neural network''}, \textit{``variational quantum circuit''} e \textit{``hybrid quantum-classical neural network''}.
+
+As strings de busca serão organizadas em blocos temáticos. O primeiro bloco contemplará estudos sobre classificação de câncer de mama em mamografias com redes neurais convolucionais e aprendizado profundo. O segundo abordará detecção, segmentação, regiões de interesse, microcalcificações e massas mamárias. O terceiro tratará de bases de dados e benchmarks públicos de mamografia, como DDSM, CBIS-DDSM, INbreast, CMMD, VinDr-Mammo, CDD-CESM, DMID, RSNA e Mammo-Bench. O quarto bloco reunirá estudos sobre robustez, validação externa, generalização e reprodutibilidade de modelos de aprendizado profundo em mamografia. O quinto bloco contemplará artigos relacionados à explicabilidade, Grad-CAM, aprendizado baseado em patches, curriculum learning e uso de anotações fracas ou fortes. Por fim, o sexto bloco reunirá trabalhos sobre aprendizado de máquina quântico, redes neurais quânticas, classificadores variacionais, métodos de kernel quântico e arquiteturas híbridas quântico-clássicas.
+
+Como critérios de inclusão, serão priorizados trabalhos publicados entre 2021 e 2026, em português ou inglês, que abordem diretamente classificação de câncer de mama, mamografia, visão computacional médica, aprendizado profundo aplicado a imagens médicas ou modelos híbridos quântico-clássicos aplicados a tarefas de classificação. Também serão incluídos artigos sobre bases de dados amplas, benchmarks, validação externa, classificação multiclasse e estratégias de generalização, desde que contribuam para o desenvolvimento metodológico do TCC. Além disso, serão considerados artigos seminais anteriores a 2021, quando forem essenciais para a fundamentação teórica, como estudos clássicos sobre redes neurais convolucionais, arquiteturas profundas e aplicações pioneiras de aprendizado profundo em mamografia.
+
+A seleção dos artigos será realizada em etapas. Inicialmente, serão analisados título, resumo e palavras-chave para verificar a aderência ao tema. Em seguida, os trabalhos potencialmente relevantes serão avaliados quanto ao objetivo, base de dados utilizada, tipo de imagem, número de classes, arquitetura proposta, métricas de avaliação, estratégia de validação, resultados obtidos e limitações declaradas. Os artigos selecionados serão organizados em uma matriz de revisão bibliográfica, contendo informações como ano, autores, título, base de dados, método, tarefa abordada, métricas, principais contribuições e relação com a proposta do TCC.
+
+A análise dos trabalhos buscará identificar convergências e divergências entre os estudos, com atenção especial a aspectos como desempenho preditivo, uso de bases públicas, tratamento de desbalanceamento, validação externa, explicabilidade, custo computacional e limitações de generalização. No caso dos modelos quânticos e híbridos quântico-clássicos, também serão observados aspectos como número de qubits, tipo de codificação dos dados, circuito variacional, simulador ou hardware utilizado, escalabilidade e comparação com modelos clássicos.
+
+Dessa forma, a pesquisa bibliográfica não terá apenas a finalidade de reunir referências, mas de posicionar criticamente a proposta deste trabalho. A revisão permitirá justificar a escolha da mamografia como domínio de aplicação, a adoção de CNNs como base clássica de comparação, a investigação de modelos híbridos quântico-clássicos como alternativa experimental e a necessidade de um protocolo controlado, reprodutível e comparativo para avaliar desempenho, custo computacional e viabilidade prática.
+
+
 \section{Câncer de mama, mamografia e classificação diagnóstica}
 
 % Explique os conceitos médicos mínimos necessários para o leitor entender
 % o problema computacional.
+
 
 \subsection{Mamografia eanálise de imagens médicas}
 
@@ -213,7 +231,50 @@ Este trabalho tem o objetivo de aprimorar a arquitetura de redes neurais convolu
 
 % Apresente bases públicas e benchmarks, como Mammo-Bench, CBIS-DDSM,
 % INbreast ou outras bases relevantes ao trabalho.
+
+
 \subsection{Mammo-Bench}
+"o dataset Mammo-Bench é um conjunto de datasets publicos com imagens de mamografia de alta qualidade de 26.500 pacientes de 7 paises diferentes"
+
+na tebela seguinte é mostrado a organização do dataset com a quantidade de imagens que cada subdataset forneceu, todas as imagens sao em formato JPG, com tamanhos diversos e escala de cor cinza apenas. 
+
+\begin{table}[H]
+\centering
+\caption{Distribuição das imagens por base de origem no CSV do Mammo-Bench}
+\label{tab:distribuicao_bases_mammobench}
+\begin{tabular}{lrl}
+\hline
+\textbf{Base no CSV} & \textbf{Quantidade de imagens} & \textbf{Observação} \\ \hline
+\texttt{rsna-screening} & 54.705 & Maior base do conjunto; muito desbalanceada \\
+\texttt{mini-ddsm}      & 7.808  & Versão reduzida/filtrada do DDSM \\
+\texttt{cmmd}           & 5.202  & Importante para subtipo molecular e anormalidades \\
+\texttt{kau-bcmd}       & 2.206  & Contém BI-RADS e densidade \\
+\texttt{cdd-cesm}       & 1.003  & Mamografia espectral com contraste \\
+\texttt{dmid}           & 510    & Pequena, com BI-RADS, densidade e anormalidades \\
+\texttt{inbreast}       & 410    & Pequena, mas bem anotada \\ \hline
+\textbf{Total}          & \textbf{71.844} & Versão dos CSVs enviados \\ \hline
+\end{tabular}
+\end{table}
+
+com os diversos exames e classes que foram fornecidos, o estudo anterior do autor foi reduzido para apenas 3 classes, junto com uma
+
+\begin{table}[H]
+\centering
+\caption{Distribuição das classes por base de origem no CSV principal do Mammo-Bench}
+\label{tab:classes_por_base_mammobench}
+\begin{tabular}{lrrrrrr}
+\hline
+\textbf{Base} & \textbf{Normal} & \textbf{Benign} & \textbf{Suspicious Malignant} & \textbf{Malignant} & \textbf{Sem classe} & \textbf{Total} \\ \hline
+\texttt{rsna-screening} & 24.021 & 2.265 & 0   & 0     & 28.419 & 54.705 \\
+\texttt{mini-ddsm}      & 2.408  & 2.684 & 0   & 2.716 & 0      & 7.808  \\
+\texttt{cmmd}           & 0      & 1.108 & 0   & 4.094 & 0      & 5.202  \\
+\texttt{kau-bcmd}       & 1.847  & 265   & 72  & 22    & 0      & 2.206  \\
+\texttt{cdd-cesm}       & 341    & 331   & 0   & 331   & 0      & 1.003  \\
+\texttt{dmid}           & 212    & 154   & 120 & 24    & 0      & 510    \\
+\texttt{inbreast}       & 67     & 243   & 43  & 57    & 0      & 410    \\ \hline
+\end{tabular}
+\end{table}
+
 
 \subsection{Qualidade dos rótulos, balanceamento e viés dos dados}
 
