@@ -32,7 +32,12 @@
 \usepackage{pgfgantt}
 \usepackage[brazilian,hyperpageref]{backref}
 \usepackage[alf]{abntex2cite}
-\usepackage[margin=3cm]{geometry}
+\usepackage[
+    left=3cm,
+    right=2cm,
+    top=3cm,
+    bottom=2cm
+]{geometry}
 
 % ---------------------------------------------------------------
 % CONFIGURAÇÕES DO PDF
@@ -43,7 +48,7 @@
     pdfauthor={\@author},
     pdfsubject={TCC1 - SENAC Santo Amaro},
     pdfcreator={LaTeX with abnTeX2},
-    pdfkeywords={tcc}{senac}{câncer de mama}{cnn}{computação quântica},
+    pdfkeywords={tcc, senac, câncer de mama, cnn, computação quântica},
     colorlinks=true,
     linkcolor=blue,
     citecolor=blue,
@@ -62,8 +67,8 @@
 \autor{Matheus Sanchez Duda}
 \local{São Paulo}
 \data{2026}
-\orientador{Prof. [Nome do Orientador]}
-% \coorientador{Prof. [Nome do Coorientador]}
+\orientador{Prof. Jorge Echeimberg}
+\coorientador{Prof. Thyago Quintas}
 
 \instituicao{%
   SENAC -- Serviço Nacional de Aprendizagem Comercial
@@ -106,15 +111,22 @@ Este trabalho tem o objetivo de aprimorar a arquitetura de redes neurais convolu
 % ELEMENTOS TEXTUAIS
 % ---------------------------------------------------------------
 \textual
-% ---------------------------------------------------------------
-% ELEMENTOS TEXTUAIS
-% ---------------------------------------------------------------
-\textual
+
 
 % ---------------------------------------------------------------
 % CAPÍTULO 1 - INTRODUÇÃO
 % ---------------------------------------------------------------
 \chapter{Introdução}
+
+%O câncer de mama é um dos principais problemas de saúde pública contemporâneos, tanto pela sua incidência quanto pelo impacto social e clínico associado ao diagnóstico e ao tratamento da doença. Nesse contexto, a mamografia é um dos exames mais utilizados para o rastreamento e a identificação de alterações suspeitas na mama, contribuindo para a detecção precoce e para o acompanhamento de possíveis lesões.
+
+%Apesar de sua importância, a análise de mamografias é uma tarefa complexa. As imagens podem apresentar baixo contraste, ruídos, variações anatômicas e padrões visuais sutis, como massas, microcalcificações e assimetrias. Esses fatores tornam o processo de interpretação desafiador, tanto para especialistas quanto para sistemas computacionais.
+
+%Com o avanço da Inteligência Artificial, especialmente do aprendizado profundo, redes neurais convolucionais passaram a ser utilizadas em tarefas de classificação, detecção e apoio à decisão em imagens médicas. Mais recentemente, modelos híbridos quântico-clássicos também passaram a ser investigados como uma alternativa emergente, combinando camadas clássicas de redes neurais com circuitos quânticos parametrizados.
+
+%Diante desse cenário, este trabalho propõe uma comparação experimental entre uma CNN clássica e uma arquitetura híbrida quântico-clássica aplicada à classificação de mamografias digitais. O objetivo não é afirmar previamente que a abordagem quântica é superior, mas investigar, de forma controlada, seu desempenho, estabilidade, custo computacional e limitações práticas em comparação com um modelo clássico de referência.
+
+
 
 \section{Contexto}
 
@@ -192,90 +204,82 @@ Este trabalho tem o objetivo de aprimorar a arquitetura de redes neurais convolu
 % Explique os conceitos médicos mínimos necessários para o leitor entender
 % o problema computacional.
 
-\section{Bases de dados em mamografia}
+\subsection{Mamografia eanálise de imagens médicas}
+
+% Explique os desafios específicos da análise de imagens médicas,
+% como variação de qualidade, artefatos, heterogeneidade dos casos e importância clínica.
+
+\subsection{Bases de dados em mamografia}
 
 % Apresente bases públicas e benchmarks, como Mammo-Bench, CBIS-DDSM,
 % INbreast ou outras bases relevantes ao trabalho.
-\section{Base matematica}
+\subsection{Mammo-Bench}
 
-% Explique os conceitos matemáticos fundamentais que sustentam o aprendizado de máquina,
-% como álgebra linear, cálculo, probabilidade e estatística.
+\subsection{Qualidade dos rótulos, balanceamento e viés dos dados}
 
-\section{Métodos estatísticos}
 
-% Explique os métodos estatísticos relevantes para a análise de dados em mamografia,
-% como testes de hipóteses, intervalos de confiança e análise de variância.
+
+\section{Imagens digitais e classificação computacional}
+
+
+\subsection{Representação de imagens digitais}
+
+
+\subsection{Pixels, matrizes e canais}
+
+
+\subsection{Classificação supervisionada de imagens}
+
+
+\section{Fundamentos matemáticos e estatísticos}
+
+
+\subsection{Vetores, matrizes e tensores}
+
+
+\subsection{Probabilidade e estatística básica}
+
+
+\subsection{Métricas descritivas e análise de desempenho}
+
+
 
 \section{Aprendizado de máquina}
-
-% Explique os conceitos fundamentais do aprendizado de máquina, como
-% supervisão, não supervisão, reforço, overfitting, underfitting e validação cruzada.
-
-\section{Cálculo de erro}
-
-% Explique as métricas de erro relevantes para a avaliação de modelos emmamografia,
-% como erro quadrático médio, erro absoluto médio e perda logarítmica.
-
-\section{Otimização de treinamento}
-
-% Explique as técnicas de otimização relevantes para o treinamento de modelos em mamografia,
-% como ajuste de hiperparâmetros, regularização, early stopping e técnicas de ensemble.
-
-\section{Aprendizado profundo e CNNs em mamografia}
-
-% Explique redes neurais convolucionais, extração automática de características,
-% transfer learning, overfitting, data augmentation e uso em mamografias.
-
-\section{Aumento de dados}
-
-% Explique técnicas de aumento de dados relevantes para mamografia,
-% como rotação, translação, espelhamento, alteração de brilho e contraste.
-
-\section{Métodos de treinamento}
-
-% Explique os métodos de treinamento relevantes para mamografia,
-% como validação cruzada, ajuste de hiperparâmetros e técnicas de ensemble.
-
-\section{Métricas de avaliação}
-
-% Explique as métricas de avaliação relevantes para mamografia,
-% como acurácia, precisão, recall, F1-score e AUC.
-
-\section{Introdução à física quântica}
-
-% Explique os conceitos básicos da física quântica relevantes para o trabalho,
-% como superposição, entrelaçamento, medição e colapso da função de onda.
-
-\section{Introdução à computação quântica}
-
-% Explique os conceitos básicos da computação quântica relevantes para o trabalho,
-% como qubits, portas quânticas, circuitos quânticos e algoritmos quânticos.
-
-\section{Circuitos quânticos}
-
-% Explique os conceitos básicos de circuitos quânticos relevantes para o trabalho,
-% como portas quânticas, profundidade do circuito e medidas.
+\subsection{Aprendizado supervisionado}
+\subsection{Dados, rótulos e classes}
+\subsection{Treinamento, validação e teste}
+\subsection{Generalização, overfitting e underfitting}
+\subsection{Desbalanceamento de classes}
+\section{Redes neurais e aprendizado profundo}
+\subsection{Neurônio artificial, pesos e camadas}
+\subsection{Funções de ativação}
+\subsection{Função de perda e cálculo do erro}
+\subsection{Gradiente e otimização}
+\subsection{Regularização e early stopping}
+\section{Redes neurais convolucionais em mamografia}
+\subsection{Convolução, filtros e mapas de características}
+\subsection{Pooling e extração hierárquica de padrões}
+\subsection{Aumento de dados}
+\subsection{CNNs aplicadas à classificação de mamografias}
+\subsection{Explicabilidade e Grad-CAM}
+\section{Fundamentos de computação quântica}
+\subsection{Qubits}
+\subsection{Superposição, emaranhamento e medição}
+\subsection{Portas e circuitos quânticos}
+\subsection{Circuitos quânticos parametrizados}
 
 \section{Aprendizado de máquina quântico}
+\subsection{Codificação de dados clássicos em estados quânticos}
+\subsection{Feature maps}
+\subsection{Data re-uploading}
+\subsection{Modelos variacionais quânticos}
+\subsection{Barren plateaus e dificuldades de otimização}
+\subsection{Simulação quântica e limitações computacionais}
 
-% Explique os conceitos básicos de aprendizado de máquina quântico relevantes para o trabalho,
-% como algoritmos quânticos de aprendizado, otimização quântica e treinamento de modelos quânticos.
-
-\section{Medidas de desempenho}
-
-% Explique as medidas de desempenho relevantes para o trabalho,
-% como tempo de execução, precisão, robustez e escalabilidade.
-
-\section{Modelos híbridos quânticos}
-
-% Explique os conceitos básicos de modelos híbridos quânticos relevantes para o trabalho,
-% como a combinação de circuitos quânticos e redes neurais clássicas.
-
-\section{Modelos híbridos quântico-clássicos e QML}
-
-% Explique conceitos fundamentais:
-% qubits, circuitos variacionais parametrizados, feature maps,
-% codificação de dados, data re-uploading, barren plateaus e limitações de simulação.
+\section{Modelos híbridos quântico-clássicos}
+\subsection{Arquiteturas híbridas para classificação}
+\subsection{Integração entre CNN e circuito quântico}
+\subsection{Limitações práticas em imagens de alta dimensão}
 
 \section{Trabalhos relacionados}
 
@@ -341,6 +345,11 @@ Este trabalho tem o objetivo de aprimorar a arquitetura de redes neurais convolu
 % Defina como os experimentos serão conduzidos:
 % mesma base, mesmas classes, mesmas divisões, mesmas métricas,
 % número de épocas, early stopping, seeds e registro dos resultados.
+
+\subsection{Configuração dos experimentos}
+\subsection{Controle de variáveis}
+\subsection{Ambiente computacional}
+\subsection{Reprodutibilidade}
 
 \section{Métricas de avaliação}
 
