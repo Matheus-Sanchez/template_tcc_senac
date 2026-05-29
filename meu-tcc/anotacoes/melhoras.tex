@@ -99,7 +99,6 @@
 \begin{resumo}
 
 Este trabalho tem o objetivo de aprimorar a arquitetura de redes neurais convolucionais feita anteriormente, que conseguia classificar imagens de cancer de mama em três classes (normal, benigna, maligna) com uma precisao de cerca de 70 por cento na media para as três classes. Agora deve ser feito a melhoria nos dois tipos de modelos para o classico conseguir clasificar mais exames radiograficos, e do modelo quântico poder ter resultados além do chute aleatório permitindo uma comparação mais robusta entre os dois tipos de modelos. 
-
 \vspace{\onelineskip}
 \noindent
 \textbf{Palavras-chave}: câncer de mama. mamografia. redes neurais convolucionais. computação quântica. aprendizado de máquina quântico.
@@ -200,15 +199,15 @@ Parte-se da hipótese de que uma arquitetura híbrida quântico-clássica, utili
 
 No entanto, não se pressupõe superioridade geral da abordagem quântica. Considerando as limitações atuais da computação quântica e da simulação de circuitos quânticos, espera-se que a viabilidade prática dos modelos híbridos seja condicionada por fatores como custo computacional, número reduzido de qubits, sensibilidade a hiperparâmetros, estratégia de codificação dos dados clássicos em estados quânticos e restrições típicas de dispositivos NISQ. Assim, a hipótese central do trabalho não é demonstrar vantagem quântica definitiva, mas investigar em quais condições a abordagem híbrida pode ser competitiva, limitada ou inviável em comparação com modelos clássicos de aprendizado profundo.
 
-% \section{Delimitações do trabalho}
+\section{Delimitações do trabalho}
 
-% % Explique o que o trabalho não pretende fazer:
-% % não será diagnóstico clínico real;
-% % não será validado em hospital;
-% % usará simulador quântico;
-% % começará com três classes: normal, benigno e maligno;
-% % ampliação de classes dependerá dos rótulos disponíveis.
-% Este trabalho será delimitado como um estudo experimental comparativo em visão computacional. A tarefa será formulada como classificação supervisionada de imagens de mamografia, inicialmente em três classes: normal, benigno e maligno. A comparação será realizada entre uma CNN clássica e uma arquitetura híbrida quântico-clássica, mantendo-se constantes a base de dados, o pré-processamento, os critérios de divisão dos dados e as métricas de avaliação.
+% Explique o que o trabalho não pretende fazer:
+% não será diagnóstico clínico real;
+% não será validado em hospital;
+% usará simulador quântico;
+% começará com três classes: normal, benigno e maligno;
+% ampliação de classes dependerá dos rótulos disponíveis.
+Este trabalho será delimitado como um estudo experimental comparativo em visão computacional. A tarefa será formulada como classificação supervisionada de imagens de mamografia, inicialmente em três classes: normal, benigno e maligno. A comparação será realizada entre uma CNN clássica e uma arquitetura híbrida quântico-clássica, mantendo-se constantes a base de dados, o pré-processamento, os critérios de divisão dos dados e as métricas de avaliação.
 
 % ---------------------------------------------------------------
 % CAPÍTULO 2 - REVISÃO BIBLIOGRÁFICA
@@ -1430,7 +1429,7 @@ Entretanto, a literatura recente sugere cautela. A revisão sistemática de \cit
 
 Assim, a comparação entre uma CNN clássica e uma arquitetura híbrida em mamografias torna-se um recorte adequado para investigar, de forma mais controlada, o real benefício dessas abordagens.
 
-% \section{Síntese da lacuna de pesquisa}
+\section{Síntese da lacuna de pesquisa}
 
 % Feche a revisão mostrando a lacuna:
 % CNNs em mamografia já são mais maduras, enquanto modelos híbridos
@@ -1441,127 +1440,169 @@ Assim, a comparação entre uma CNN clássica e uma arquitetura híbrida em mamo
 % CAPÍTULO 3 - DESENVOLVIMENTO / PROPOSTA METODOLÓGICA
 % ---------------------------------------------------------------
 \chapter{Desenvolvimento: proposta metodológica}
-
-\chapter{Desenvolvimento}
 \label{cap:desenvolvimento}
 
-Neste capítulo, apresenta-se a solução proposta para o problema identificado e o cronograma preliminar de trabalho para o desenvolvimento completo do projeto ao longo do TCC.
+Neste capítulo, apresenta-se a proposta de desenvolvimento do trabalho a ser realizada no TCC2. Diferentemente de um sistema computacional tradicional, a solução proposta neste trabalho consiste em um pipeline experimental para comparação entre arquiteturas de aprendizado de máquina aplicadas à classificação de mamografias.
 
+O desenvolvimento será conduzido como um estudo experimental comparativo, quantitativo e reprodutível. A proposta consiste em implementar, treinar e avaliar uma rede neural convolucional clássica e uma arquitetura híbrida quântico-clássica simulada, utilizando a mesma base de dados, o mesmo pré-processamento, a mesma divisão entre treino, validação e teste e o mesmo conjunto de métricas. Dessa forma, busca-se realizar uma comparação controlada entre os modelos, considerando não apenas desempenho preditivo, mas também custo computacional, estabilidade e limitações práticas de simulação.
+
+O objetivo do desenvolvimento não é criar uma ferramenta clínica de diagnóstico, nem substituir especialistas da área médica. O trabalho deve ser entendido como uma investigação experimental de viabilidade tecnológica, voltada a analisar se a inserção de um componente quântico simulado em uma arquitetura de classificação de mamografias pode apresentar comportamento competitivo em relação a uma CNN clássica.
+
+% ---------------------------------------------------------------
 \section{Solução proposta}
 \label{sec:solucao}
 
-A solução proposta consiste em um estudo experimental comparativo entre duas abordagens de classificação de imagens de mamografia: uma abordagem clássica, baseada em redes neurais convolucionais, e uma abordagem híbrida quântico-clássica. O objetivo não é construir um produto clínico, mas estabelecer um protocolo reproduzível de comparação entre modelos sob condições equivalentes.
+A solução proposta consiste no desenvolvimento de um pipeline computacional para classificação supervisionada de mamografias em três classes: normal, benigno e maligno. Esse pipeline será composto por etapas de organização da base de dados, pré-processamento das imagens, definição dos conjuntos de treino, validação e teste, implementação dos modelos, treinamento, avaliação por métricas preditivas e comparação do custo computacional.
 
-Em termos de arquitetura geral, o projeto deverá contemplar: (i) preparação padronizada dos dados; (ii) implementação do \textit{baseline} clássico; (iii) implementação do modelo híbrido; (iv) treinamento e validação com os mesmos conjuntos de dados; e (v) análise quantitativa e qualitativa dos resultados. Pretende-se utilizar Python como linguagem principal, com bibliotecas clássicas de aprendizado profundo, como TensorFlow ou PyTorch, e bibliotecas de computação quântica e aprendizado híbrido, como PennyLane ou Qiskit.
+A comparação será realizada entre três arquiteturas principais. A primeira será uma CNN clássica, utilizada como modelo de referência. A segunda será uma CNN com gargalo clássico equivalente, cuja função será servir como controle experimental para avaliar o impacto da redução dimensional antes da classificação. A terceira será uma arquitetura híbrida quântico-clássica, composta por uma etapa clássica de extração de características, uma etapa de projeção dimensional e um circuito quântico variacional simulado.
 
-Do ponto de vista metodológico, a pesquisa será conduzida como estudo experimental com apoio teórico. Essa escolha é adequada porque o objetivo central do TCC é implementar, controlar variáveis, executar experimentos e comparar empiricamente duas classes de modelos. O foco da validação estará em métricas objetivas, múltiplas execuções com diferentes sementes e registro detalhado do ambiente computacional.
+A inclusão de uma CNN com gargalo clássico equivalente é importante porque permite uma comparação mais justa com o modelo híbrido. Caso o modelo híbrido apresente ganho ou perda de desempenho, será possível avaliar se esse comportamento está relacionado ao componente quântico ou apenas à redução dimensional necessária para adaptar os dados clássicos ao número limitado de qubits.
 
-A pergunta de pesquisa que orienta a solução pode ser formulada da seguinte forma: \textit{em tarefas de classificação de câncer de mama a partir de imagens de mamografia, modelos híbridos quântico-clássicos apresentam desempenho comparável ou superior ao de CNNs clássicas quando avaliados sob as mesmas condições experimentais?}
+% ---------------------------------------------------------------
+\subsection{Visão geral da arquitetura}
+\label{subsec:visao_arquitetura}
 
-A hipótese de trabalho inicial é que modelos híbridos podem apresentar desempenho competitivo em cenários específicos, porém ainda enfrentam limitações práticas relacionadas à escalabilidade, ao custo computacional e à maturidade da tecnologia quântica disponível. Dessa forma, o sucesso da pesquisa não depende necessariamente de superioridade do modelo híbrido, mas da produção de evidências reprodutíveis que permitam comparar as abordagens com rigor metodológico.
+A arquitetura geral do experimento será organizada em cinco etapas principais:
 
-\subsection*{Plano de validação}
+\begin{enumerate}
+    \item seleção e organização da base de dados;
+    \item pré-processamento e normalização das imagens;
+    \item treinamento da CNN clássica de referência;
+    \item treinamento da CNN com gargalo clássico equivalente;
+    \item treinamento e avaliação do modelo híbrido quântico-clássico.
+\end{enumerate}
 
-A validação da proposta será realizada por meio de: separação adequada entre treino, validação e teste; repetição dos experimentos com sementes distintas; comparação direta com \textit{baseline} clássico; uso de métricas de classificação; análise de custo computacional; e discussão crítica das limitações observadas. Sempre que possível, serão adotados testes estatísticos para verificar a significância das diferenças entre os resultados.
+Na primeira etapa, serão selecionadas as imagens mamográficas utilizadas na tarefa de classificação. Os rótulos serão organizados em três classes: normal, benigno e maligno. Amostras com rótulos ausentes, inconsistentes ou incompatíveis com a tarefa proposta poderão ser removidas, desde que esse critério seja documentado.
 
-\subsection*{Riscos e limitações iniciais}
+Na segunda etapa, as imagens serão redimensionadas, normalizadas e preparadas para entrada nos modelos. O pré-processamento será mantido igual para todas as arquiteturas, a fim de garantir comparabilidade entre os resultados. Sempre que possível, a divisão dos dados buscará evitar vazamento entre treino, validação e teste, especialmente quando houver metadados que permitam identificar imagens pertencentes ao mesmo paciente ou exame.
 
-Entre os riscos identificados estão a limitação de bases públicas, o desbalanceamento entre classes, o alto custo de simulação quântica, incompatibilidades de bibliotecas, restrições de hardware e a possibilidade de escopo excessivamente amplo. Como mitigação, o trabalho será mantido dentro de um recorte claro: classificação supervisionada de mamografias, poucas arquiteturas comparáveis, documentação rigorosa e priorização de experimentos viáveis dentro do tempo do TCC.
+Na terceira etapa, será treinada uma CNN clássica para servir como baseline principal. Essa rede será responsável por extrair características espaciais das mamografias por meio de camadas convolucionais, camadas de normalização, funções de ativação, operações de pooling e camadas finais de classificação.
 
-\section{Tipo de pesquisa}
+Na quarta etapa, será implementada uma versão clássica com gargalo dimensional equivalente ao número de entradas utilizadas no circuito quântico. Essa arquitetura terá a função de controlar o efeito da redução dimensional, permitindo avaliar se o desempenho do modelo híbrido decorre realmente da camada quântica ou apenas da compactação das características extraídas pela CNN.
 
-% Exemplo:
-% Esta pesquisa é de natureza aplicada, com abordagem quantitativa,
-% experimental e comparativa.
+Na quinta etapa, será implementado o modelo híbrido quântico-clássico. Esse modelo utilizará uma CNN para extração inicial de características, uma camada clássica para projetar essas características em um vetor de baixa dimensão e um circuito quântico variacional simulado para processamento intermediário. As saídas do circuito serão encaminhadas para camadas clássicas finais responsáveis pela classificação.
 
-\section{Visão geral da solução proposta}
+% ---------------------------------------------------------------
+\subsection{Tecnologias e ferramentas}
+\label{subsec:tecnologias}
 
-% Apresente o pipeline geral:
-% base de dados -> pré-processamento -> modelo clássico -> modelo híbrido
-% -> avaliação -> comparação -> análise crítica.
+O desenvolvimento será realizado em linguagem Python, devido à ampla disponibilidade de bibliotecas para aprendizado profundo, processamento de imagens, análise de dados e computação quântica simulada.
 
-\section{Base de dados e definição das classes}
+Para a implementação dos modelos clássicos, serão utilizadas bibliotecas como TensorFlow e Keras. Para a manipulação dos dados, organização dos rótulos e análise tabular, serão utilizadas bibliotecas como Pandas e NumPy. Para o cálculo das métricas de avaliação, poderá ser utilizada a biblioteca Scikit-learn. Para geração de gráficos e visualizações, serão utilizadas bibliotecas como Matplotlib.
 
-% Defina a base principal e as classes:
-% normal, benigno e maligno.
-% Explique se haverá ou não ampliação para mais classes.
+A parte quântica do trabalho será desenvolvida com apoio do Qiskit, utilizado para a construção e simulação dos circuitos quânticos variacionais. Como o trabalho será realizado em ambiente de simulação, o número de qubits e a profundidade dos circuitos serão limitados pela capacidade computacional disponível.
 
-\section{Pré-processamento e preparação dos dados}
+O ambiente computacional utilizado nos experimentos será documentado, incluindo processador, memória RAM, placa de vídeo, sistema operacional, versões das bibliotecas e configurações principais. Essa documentação é necessária para permitir maior reprodutibilidade dos resultados.
 
-% Descreva redimensionamento, normalização, balanceamento,
-% aumento de dados, divisão treino/validação/teste e prevenção de vazamento de dados.
+% ---------------------------------------------------------------
+\subsection{Funcionalidades principais do pipeline experimental}
+\label{subsec:funcionalidades}
 
-\section{Modelo clássico de referência}
+O pipeline experimental proposto deverá realizar as seguintes funções:
 
-% Descreva a CNN clássica usada como baseline.
-% Explique se será uma CNN customizada, ResNet, EfficientNet ou outra arquitetura.
+\begin{itemize}
+    \item carregar e organizar os metadados da base de mamografias;
+    \item selecionar as imagens e os rótulos correspondentes às classes normal, benigno e maligno;
+    \item aplicar o mesmo pré-processamento para todos os modelos;
+    \item dividir os dados em treino, validação e teste;
+    \item treinar a CNN clássica de referência;
+    \item treinar a CNN com gargalo clássico equivalente;
+    \item treinar o modelo híbrido quântico-clássico;
+    \item registrar histórico de treinamento, perdas e métricas por época;
+    \item calcular matriz de confusão, precisão, recall, F1-score e AUC;
+    \item comparar tempo de treinamento, uso de memória e estabilidade dos modelos;
+    \item gerar tabelas e gráficos para análise dos resultados.
+\end{itemize}
 
-\section{Modelo híbrido quântico-clássico}
+Essas funcionalidades permitirão avaliar não apenas qual modelo apresenta melhor desempenho preditivo, mas também qual deles possui melhor viabilidade prática considerando custo computacional, estabilidade e escalabilidade.
 
-% Descreva a arquitetura híbrida:
-% extrator clássico de características -> projeção para qubits
-% -> circuito quântico parametrizado -> medição -> classificador final.
+% ---------------------------------------------------------------
+\subsection{Metodologia de desenvolvimento}
+\label{subsec:metodologia_desenvolvimento}
 
-\section{Diagnóstico do modelo quântico anterior}
+A metodologia de desenvolvimento será dividida em etapas incrementais. Inicialmente, será consolidado o pipeline de dados, garantindo que as imagens sejam carregadas corretamente, os rótulos estejam consistentes e os conjuntos de treino, validação e teste estejam definidos. Em seguida, será implementada a CNN clássica de referência, que servirá como baseline principal do estudo.
 
-% Explique que experimentos anteriores ficaram próximos do chute aleatório
-% e que o TCC irá investigar possíveis causas:
-% feature map, número de qubits, profundidade, codificação dos dados,
-% otimização, barren plateaus e custo de simulação.
+Após a definição do baseline clássico, será implementado o modelo clássico com gargalo dimensional equivalente. Esse modelo será utilizado como controle metodológico, pois terá uma redução dimensional semelhante àquela necessária para alimentar o circuito quântico, porém sem utilizar uma camada quântica.
 
-\section{Protocolo experimental}
+Em seguida, será implementado o modelo híbrido quântico-clássico. Nessa etapa, serão testadas configurações limitadas de número de qubits, profundidade do circuito, estratégia de codificação dos dados e tipo de circuito variacional. Como a simulação quântica possui custo computacional elevado, os experimentos serão planejados de forma progressiva, iniciando com configurações menores e aumentando a complexidade apenas quando houver viabilidade de execução.
 
-% Defina como os experimentos serão conduzidos:
-% mesma base, mesmas classes, mesmas divisões, mesmas métricas,
-% número de épocas, early stopping, seeds e registro dos resultados.
+Todos os modelos serão avaliados sob o mesmo protocolo experimental. A seleção do melhor modelo será realizada com base no conjunto de validação, enquanto o conjunto de teste será reservado para a avaliação final. Sempre que possível, os experimentos serão repetidos com diferentes sementes aleatórias, permitindo avaliar a estabilidade dos resultados.
 
-\subsection{Configuração dos experimentos}
-\subsection{Controle de variáveis}
-\subsection{Ambiente computacional}
-\subsection{Reprodutibilidade}
+% ---------------------------------------------------------------
+\subsection{Critérios de validação}
+\label{subsec:criterios_validacao}
 
-\section{Métricas de avaliação}
+A validação da solução será realizada por meio da comparação entre os modelos implementados. As métricas principais serão AUC macro, F1-score macro e recall da classe maligna. A acurácia também será registrada, mas será tratada como métrica complementar, pois pode ser influenciada pelo desbalanceamento entre as classes.
 
-% Liste e justifique as métricas:
-% acurácia, precisão, recall, F1-score, AUC, matriz de confusão,
-% tempo de treinamento, uso de memória e estabilidade entre execuções.
+A matriz de confusão será utilizada para analisar os tipos de erro cometidos por cada modelo, especialmente os falsos negativos da classe maligna. Esse ponto é importante porque, em tarefas relacionadas à classificação de imagens médicas, erros envolvendo a classe maligna possuem maior relevância crítica.
 
-\section{Critérios de validação}
+Além das métricas preditivas, serão avaliados critérios computacionais, como tempo de treinamento, tempo de inferência, uso de memória, estabilidade entre execuções e limitações de escalabilidade. No caso do modelo híbrido, também serão analisados os impactos do número de qubits, da profundidade do circuito e da estratégia de codificação dos dados clássicos.
 
-% Explique quando o modelo será considerado viável:
-% superar desempenho aleatório, apresentar estabilidade,
-% alcançar desempenho competitivo e ter custo computacional justificável.
+O modelo híbrido será considerado competitivo caso apresente desempenho próximo ao baseline clássico nas métricas principais, especialmente AUC macro, F1-score macro e recall da classe maligna, sem aumento desproporcional de custo computacional ou instabilidade de treinamento. Caso o modelo híbrido apresente desempenho inferior, custo elevado ou dificuldade de convergência, esses resultados também serão considerados relevantes, pois contribuirão para compreender as limitações práticas da abordagem híbrida quântico-clássica nesse tipo de problema.
 
-\section{Riscos e limitações}
+% ---------------------------------------------------------------
+\section{Cronograma de trabalho}
+\label{sec:cronograma}
 
-% Liste limitações:
-% hardware, custo exponencial da simulação, poucos qubits,
-% ausência de vantagem quântica, qualidade dos rótulos,
-% overfitting, ausência de validação clínica e vazamento por paciente.
+O cronograma a seguir apresenta as atividades previstas para o desenvolvimento do TCC2, distribuídas ao longo de dezesseis semanas. As etapas foram organizadas de modo a contemplar a revisão dos fundamentos teóricos, a preparação dos dados, a implementação dos modelos, a execução dos experimentos, a análise dos resultados e a redação final do trabalho.
 
-\section{Cronograma}
+\begin{figure}[htb]
+    \centering
+    \caption{Cronograma de atividades -- Diagrama de Gantt}
+    \label{fig:gantt}
+    \begin{ganttchart}[
+        hgrid,
+        vgrid,
+        x unit=0.72cm,
+        y unit title=0.6cm,
+        y unit chart=0.7cm,
+        title height=1,
+        bar height=0.5,
+        bar label font=\scriptsize,
+        title label font=\small,
+        milestone label font=\scriptsize\itshape,
+        group label font=\scriptsize\bfseries,
+        bar/.append style={fill=blue!40},
+        group/.append style={draw=black, fill=blue!70},
+        milestone/.append style={fill=red!70},
+    ]{1}{16}
 
-% Você pode inserir uma tabela ou um diagrama de Gantt.
-% Exemplo simples de tabela:
+        \gantttitle{Semanas}{16} \\
+        \gantttitlelist{1,...,16}{1} \\
 
-\begin{table}[htb]
-\centering
-\caption{Cronograma preliminar de desenvolvimento do TCC}
-\label{tab:cronograma}
-\begin{tabular}{|p{7cm}|c|c|c|c|}
-\hline
-\textbf{Atividade} & \textbf{Mês 1} & \textbf{Mês 2} & \textbf{Mês 3} & \textbf{Mês 4} \\ \hline
-Revisão e ajuste da fundamentação teórica & X &  &  &  \\ \hline
-Definição da base de dados e das classes & X &  &  &  \\ \hline
-Pré-processamento e organização dos dados & X & X &  &  \\ \hline
-Implementação e ajuste da CNN clássica &  & X &  &  \\ \hline
-Implementação do modelo híbrido quântico-clássico &  & X & X &  \\ \hline
-Execução dos experimentos comparativos &  &  & X &  \\ \hline
-Análise dos resultados e métricas &  &  & X & X \\ \hline
-Redação final e revisão do TCC &  &  &  & X \\ \hline
-\end{tabular}
-\fonte{Elaborado pelo autor.}
-\end{table}
+        \ganttgroup{Fase 1: Revisão e planejamento}{1}{3} \\
+        \ganttbar{Ajuste da fundamentação teórica}{1}{2} \\
+        \ganttbar{Definição final do protocolo experimental}{2}{3} \\
+        \ganttmilestone{Protocolo definido}{3} \\
+
+        \ganttgroup{Fase 2: Preparação dos dados}{4}{6} \\
+        \ganttbar{Organização da base e rótulos}{4}{5} \\
+        \ganttbar{Pré-processamento das imagens}{5}{6} \\
+        \ganttbar{Divisão em treino, validação e teste}{6}{6} \\
+        \ganttmilestone{Base preparada}{6} \\
+
+        \ganttgroup{Fase 3: Implementação dos modelos}{7}{10} \\
+        \ganttbar{Implementação da CNN clássica}{7}{8} \\
+        \ganttbar{Implementação do baseline com gargalo}{8}{9} \\
+        \ganttbar{Implementação do modelo híbrido}{9}{10} \\
+        \ganttmilestone{Modelos implementados}{10} \\
+
+        \ganttgroup{Fase 4: Experimentos e análise}{11}{14} \\
+        \ganttbar{Treinamento e ajuste dos modelos}{11}{12} \\
+        \ganttbar{Execução dos testes comparativos}{12}{13} \\
+        \ganttbar{Análise das métricas e gráficos}{13}{14} \\
+        \ganttmilestone{Resultados analisados}{14} \\
+
+        \ganttgroup{Fase 5: Redação e finalização}{13}{16} \\
+        \ganttbar{Redação dos resultados}{13}{15} \\
+        \ganttbar{Revisão final do texto}{15}{16} \\
+        \ganttbar{Preparação da apresentação}{15}{16} \\
+        \ganttmilestone{Entrega final}{16}
+
+    \end{ganttchart}
+    \legend{Fonte: Elaborado pelo autor.}
+\end{figure}
+```
 
 
 % ---------------------------------------------------------------
@@ -1569,6 +1610,6 @@ Redação final e revisão do TCC &  &  &  & X \\ \hline
 % ---------------------------------------------------------------
 \postextual
 
-\bibliography{anotacoes/bibliografia-math}
+\bibliography{bibliografia-math}
 
 \end{document}
