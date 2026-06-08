@@ -99,6 +99,9 @@
 \begin{resumo}
 
 Este trabalho tem o objetivo de aprimorar a arquitetura de redes neurais convolucionais feita anteriormente, que conseguia classificar imagens de cancer de mama em três classes (normal, benigna, maligna) com uma precisao de cerca de 70 por cento na media para as três classes. Agora deve ser feito a melhoria nos dois tipos de modelos para o classico conseguir clasificar mais exames radiograficos, e do modelo quântico poder ter resultados além do chute aleatório permitindo uma comparação mais robusta entre os dois tipos de modelos. 
+
+
+
 \vspace{\onelineskip}
 \noindent
 \textbf{Palavras-chave}: câncer de mama. mamografia. redes neurais convolucionais. computação quântica. aprendizado de máquina quântico.
@@ -181,7 +184,7 @@ Investigar comparativamente o desempenho de CNNs clássicas e modelos híbridos 
     \item Aprimorar uma CNN clássica para servir como modelo de referência;
     \item Projetar uma arquitetura híbrida quântico-clássica compatível com as limitações de simulação disponíveis;
     \item Investigar configurações do modelo híbrido, como número de qubits, feature map, profundidade do circuito e estratégia de codificação;
-    \item Comparar os modelos por meio de métricas como acurácia, precisão, recall, F1-score, AUC e matriz de confusão;
+    \item Comparar os modelos por meio de métricas preditivas, métricas computacionais e parâmetros associados ao componente quântico, como número de qubits, profundidade do circuito, estratégia de codificação, número de \textit{shots} e tempo de simulação;
     \item Avaliar tempo de treinamento, uso de memória, estabilidade entre execuções e limitações de escalabilidade;
     \item Discutir criticamente as vantagens, limitações e condições de viabilidade da abordagem híbrida quântico-clássica.
 \end{enumerate}
@@ -747,6 +750,10 @@ Em mamografias, mapas Grad-CAM podem ajudar a verificar se o modelo está concen
 
 \section{Preparação, treinamento e avaliação de modelos supervisionados}
 
+O desempenho de um modelo supervisionado não depende apenas da etapa de treinamento. Em problemas de imagens médicas, a preparação dos dados, a separação correta entre treino, validação e teste, o controle do desbalanceamento, a regularização e a escolha das métricas influenciam diretamente a confiabilidade dos resultados. Um modelo pode apresentar bons resultados aparentes quando treinado, mas ainda assim falhar em generalizar caso exista vazamento de dados, distribuição inadequada entre classes ou avaliação baseada apenas em acurácia global.
+
+Por esse motivo, esta seção reúne os principais cuidados metodológicos necessários para que a comparação entre CNN clássica, CNN com gargalo clássico e modelo híbrido quântico-clássico seja conduzida de forma controlada. O objetivo não é apenas treinar redes, mas garantir que os resultados obtidos possam ser interpretados de maneira justa, reprodutível e coerente com a natureza sensível da classificação de mamografias.
+
 \subsection{Qualidade dos rótulos, desbalanceamento e viés dos dados}
 \label{subsec:qualidade_rotulos_balanceamento_vies}
 
@@ -946,6 +953,13 @@ x_i' = T(x_i),
 em que \(x_i'\) mantém o mesmo rótulo \(y_i\), desde que a transformação não altere o significado clínico da imagem. Em imagens naturais, são comuns transformações como rotações, translações, espelhamentos, variações de brilho, contraste e recortes. Em mamografias, essas transformações devem ser escolhidas com cuidado, pois alterações inadequadas podem modificar estruturas relevantes ou gerar imagens incompatíveis com a prática clínica.
 
 No contexto da mamografia, o aumento de dados pode incluir pequenas variações geométricas, ajustes leves de brilho e contraste, ruído controlado e técnicas de recorte ou mascaramento, desde que preservem características diagnósticas importantes. Essas transformações aumentam a diversidade observada pelo modelo durante o treinamento e reduzem a probabilidade de memorização de imagens específicas. Revisões sobre CNNs aplicadas à mamografia destacam que estratégias como pré-processamento, aumento de dados, normalização, dropout e ajuste cuidadoso da arquitetura são frequentemente utilizadas para melhorar desempenho e reduzir sobreajuste \cite{abdelhafiz2019}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../figuras/aumento_dados_exemplos.png}
+    \caption{Exemplos de aumento de dados por transformações leves aplicadas a uma imagem sintética em escala de cinza. As transformações ilustram alterações controladas que podem ampliar a diversidade do conjunto de treinamento sem modificar o rótulo da amostra. Fonte: elaborado pelo autor.}
+    \label{fig:aumento_dados_exemplos}
+\end{figure}
 
 Em imagens médicas, o controle do sobreajuste é ainda mais importante devido a fatores como quantidade limitada de dados anotados, desbalanceamento entre classes, alta dimensionalidade das imagens e diferenças entre bases de origem. Em mamografias, pequenas regiões podem conter informações clinicamente relevantes, mas também é possível que o modelo aprenda padrões indesejados, como diferenças de contraste, ruído, marcas laterais ou características específicas de determinado equipamento. Por isso, a avaliação deve considerar não apenas o desempenho no treino, mas também métricas em validação e teste, preferencialmente analisadas por classe.
 
@@ -1158,14 +1172,12 @@ Em termos práticos, a AUC mede a capacidade do modelo de atribuir pontuações 
 
 Portanto, a avaliação de modelos aplicados à classificação de mamografias não deve depender apenas da acurácia global. A matriz de confusão, a precisão, a revocação, a especificidade, o F1-score, a acurácia balanceada e a AUC fornecem uma análise mais completa do comportamento do modelo. Essa abordagem é coerente com a formulação matemática da aprendizagem de máquina, na qual o objetivo não é apenas minimizar o erro no conjunto de treinamento, mas estimar se o modelo é capaz de generalizar para dados não vistos \cite{deisenroth2020mathematics}. Em imagens médicas, essa análise é essencial porque diferentes tipos de erro possuem diferentes implicações clínicas.
 
-
-A avaliação de modelos de classificação em imagens médicas deve considerar mais do que a acurácia global. Embora a acurácia indique a proporção de amostras classificadas corretamente, ela pode ser insuficiente em bases desbalanceadas, pois um modelo pode obter desempenho aparentemente elevado apenas favorecendo a classe majoritária.
-
-Por esse motivo, métricas como precisão, revocação, F1-score, matriz de confusão e AUC são importantes para uma análise mais completa. A precisão indica, entre todas as amostras classificadas como pertencentes a uma classe, quantas realmente pertencem a ela. A revocação, também chamada de sensibilidade em contextos médicos, indica a proporção de amostras reais de uma classe que foram corretamente identificadas pelo modelo.
-
-O F1-score combina precisão e revocação por meio da média harmônica, sendo útil quando é necessário equilibrar falsos positivos e falsos negativos. A matriz de confusão permite observar diretamente os padrões de erro do modelo, mostrando quais classes são mais frequentemente confundidas. Já a AUC, associada à curva ROC, avalia a capacidade de separação entre classes em diferentes limiares de decisão.
-
-Em problemas multiclasse, como a classificação de mamografias em categorias diagnósticas, é comum utilizar estratégias como one-vs-rest, nas quais cada classe é avaliada em comparação com todas as demais. Essa abordagem permite analisar a capacidade discriminativa do modelo para cada classe individualmente, o que é especialmente importante quando as classes possuem diferentes graus de relevância clínica.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../figuras/metricas_classificacao_exemplos.png}
+    \caption{Resumo visual de métricas utilizadas na avaliação de classificadores. A matriz de confusão permite identificar acertos e erros por classe; a estratégia \textit{one-vs-rest} organiza \(TP\), \(FP\), \(FN\) e \(TN\); e a curva ROC/AUC sintetiza a capacidade discriminativa do modelo em diferentes limiares. Fonte: elaborado pelo autor.}
+    \label{fig:metricas_classificacao_exemplos}
+\end{figure}
 
 \subsection{Métricas de custo computacional e estabilidade experimental}
 \label{subsec:metricas_custo_estabilidade}
@@ -1205,6 +1217,13 @@ em que \(\alpha\) e \(\beta\) são amplitudes complexas que satisfazem a condiç
 \]
 
 Os valores \(|\alpha|^2\) e \(|\beta|^2\) representam as probabilidades de observar, após a medição, os estados \(\ket{0}\) e \(\ket{1}\), respectivamente. Assim, antes da medição, o qubit pode estar em superposição; após a medição, o resultado observado será clássico, assumindo um dos estados possíveis.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../figuras/qubit_portas_probabilidades.png}
+    \caption{Representação visual de um qubit em superposição, circuitos quânticos simples e distribuições de probabilidade após a aplicação de portas como \(H\), \(X\), \(R_Y\) e CNOT. A medição transforma o estado quântico em resultados clássicos probabilísticos. Fonte: elaborado pelo autor com base na documentação da IBM Quantum sobre circuitos e medição \cite{ibmQuantumCircuitLibrary2026,ibmQuantumMeasureQubits2026}.}
+    \label{fig:qubit_portas_probabilidades}
+\end{figure}
 
 Para um sistema com \(n\) qubits, o estado quântico pertence a um espaço de dimensão \(2^n\). Por exemplo, dois qubits possuem quatro estados base:
 
@@ -1343,6 +1362,15 @@ em que cada camada \(L_i\) combina parâmetros treináveis e dados de entrada. E
 
 No contexto de imagens médicas, a codificação é um dos maiores desafios para modelos quânticos. Uma mamografia redimensionada para \(1024 \times 1024\) pixels possui mais de um milhão de valores de intensidade, enquanto circuitos quânticos simuláveis geralmente utilizam poucos qubits. Por isso, modelos híbridos normalmente utilizam uma etapa clássica de extração ou compressão de características antes da codificação quântica.
 
+Além das codificações usadas diretamente em QML, também existem representações quânticas específicas para imagens. Métodos como Qubit Lattice, FRQI e NEQR buscam representar posição e intensidade dos pixels por meio de estados quânticos, amplitudes, ângulos ou registradores binários. Esses modelos ajudam a compreender os desafios de medição e escalabilidade quando se tenta representar imagens em circuitos quânticos \cite{okada2025measurementlimits}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../figuras/codificacoes_quanticas_imagem.png}
+    \caption{Comparação esquemática entre três representações quânticas de imagens: Qubit Lattice, FRQI e NEQR. A figura destaca diferentes formas de associar posição e intensidade dos pixels a estados ou registradores quânticos. Fonte: elaborado pelo autor com base em Okada et al. \cite{okada2025measurementlimits}.}
+    \label{fig:codificacoes_quanticas_imagem}
+\end{figure}
+
 \subsection{Modelos variacionais quânticos}
 
 Modelos variacionais quânticos são uma das principais abordagens para uso de computação quântica em dispositivos NISQ. Esses modelos combinam circuitos quânticos parametrizados com otimizadores clássicos. O circuito quântico é responsável por preparar estados, aplicar transformações e produzir medições; o computador clássico calcula a função de custo e atualiza os parâmetros do circuito.
@@ -1386,6 +1414,13 @@ Z_j
 
 O vetor \(z(x,\theta)\) pode ser utilizado diretamente para classificação ou enviado a uma camada clássica, como uma camada densa com ativação \textit{softmax}. Assim, o circuito quântico atua como uma camada treinável dentro de um pipeline maior.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../figuras/circuito_variacional_exemplo.png}
+    \caption{Fluxo simplificado de um circuito variacional: os dados são codificados no circuito, o ansatz parametrizado transforma o estado, as medições produzem valores clássicos e um otimizador ajusta os parâmetros. Fonte: elaborado pelo autor com base em Cerezo et al. \cite{cerezo2021variational} e na documentação do circuito \textit{real amplitudes} do Qiskit \cite{ibmQuantumRealAmplitudes2026}.}
+    \label{fig:circuito_variacional_exemplo}
+\end{figure}
+
 A escolha do ansatz é uma decisão importante. Um ansatz muito simples pode não ter capacidade suficiente para representar padrões complexos; por outro lado, um ansatz muito profundo pode ser difícil de treinar e mais sensível a ruído. Essa tensão entre expressividade, profundidade, número de qubits e treinabilidade é uma das principais questões em modelos variacionais quânticos.
 
 \subsection{Limitações NISQ, simulação, barren plateaus e escalabilidade}
@@ -1418,7 +1453,14 @@ Em imagens médicas de alta dimensão, como mamografias, essas limitações são
 
 Como este trabalho será desenvolvido em ambiente clássico, os circuitos quânticos serão avaliados por simulação. Essa escolha permite construir, testar e comparar circuitos parametrizados sem depender de acesso contínuo a hardware quântico real, mas impõe limites práticos de memória, tempo de execução, número de qubits e profundidade dos circuitos.
 
-O Qiskit será utilizado como ferramenta de apoio para a construção e simulação dos circuitos quânticos variacionais. Em especial, simuladores como o Qiskit Aer são relevantes para estudos experimentais porque permitem executar circuitos com controle sobre número de \textit{shots}, medições, estados simulados e custo computacional \cite{faj2023warpspeed}. Ainda assim, os resultados obtidos por simulação devem ser interpretados com cautela, pois podem não refletir integralmente ruído, conectividade, calibração e restrições operacionais de dispositivos NISQ reais.
+O Qiskit será utilizado como ferramenta de apoio para a construção e simulação dos circuitos quânticos variacionais. Em especial, simuladores como o Qiskit Aer são relevantes para estudos experimentais porque permitem executar circuitos com controle sobre número de \textit{shots}, medições, estados simulados e custo computacional \cite{faj2023warpspeed}. Estudos recentes também discutem fluxos híbridos quântico-clássicos e aceleração por GPU em simulações quânticas, incluindo o uso de ferramentas como cuQuantum \cite{chen2024quantumhpcworkflow,bayraktar2023cuquantum}. Ainda assim, os resultados obtidos por simulação devem ser interpretados com cautela, pois podem não refletir integralmente ruído, conectividade, calibração e restrições operacionais de dispositivos NISQ reais.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../figuras/simulacao_qiskit_fluxo.png}
+    \caption{Fluxo simplificado de simulação de circuitos quânticos com Qiskit/Aer. O circuito é executado em um backend simulado, produzindo estados ou contagens de medição; o custo cresce com o número de qubits, profundidade e número de execuções. Fonte: elaborado pelo autor com base em Faj et al., Chen et al. e Bayraktar et al. \cite{faj2023warpspeed,chen2024quantumhpcworkflow,bayraktar2023cuquantum}.}
+    \label{fig:simulacao_qiskit_fluxo}
+\end{figure}
 
 
 \section{Modelos híbridos quântico-clássicos}
@@ -1428,6 +1470,13 @@ Modelos híbridos quântico-clássicos combinam componentes de aprendizado de m�
 Em tarefas de classificação de imagens, uma estratégia comum é usar uma rede neural clássica, especialmente uma CNN, para extrair características visuais da imagem. Em seguida, essas características são projetadas para uma dimensão compatível com o número de qubits e codificadas em um circuito quântico. O circuito atua como uma camada variacional ou transformadora, e suas saídas são processadas por camadas clássicas responsáveis pela classificação final.
 
 Essa estrutura permite investigar se o componente quântico contribui para a representação dos dados ou para a separação entre classes. No entanto, a simples inclusão de um circuito quântico não garante ganho de desempenho. A contribuição do bloco quântico precisa ser avaliada de forma controlada, comparando-o com baselines clássicos equivalentes.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../figuras/modelo_hibrido_quantico_classico.png}
+    \caption{Esquema geral de uma arquitetura híbrida quântico-clássica para classificação de mamografias. A CNN extrai características, uma projeção reduz a dimensão, o circuito quântico processa a representação compacta e uma camada clássica final produz as probabilidades das classes. Fonte: elaborado pelo autor com base em propostas de modelos híbridos quântico-clássicos \cite{long2025qcqcnn,schetakis2022qmlframeworks}.}
+    \label{fig:modelo_hibrido_quantico_classico}
+\end{figure}
 
 \subsection{Arquitetura híbrida CNN--circuito quântico}
 
@@ -1682,7 +1731,7 @@ O conjunto de validação será utilizado para acompanhar o treinamento, selecio
 
 Além das métricas preditivas, serão avaliados critérios computacionais, como tempo de treinamento, tempo de inferência, uso de memória, estabilidade entre execuções e limitações de escalabilidade. No caso do modelo híbrido, também serão analisados os impactos do número de qubits, da profundidade do circuito e da estratégia de codificação dos dados clássicos.
 
-O modelo híbrido será considerado competitivo caso apresente desempenho próximo ao baseline clássico nas métricas principais, especialmente AUC macro, F1-score macro e recall da classe maligna, sem aumento desproporcional de custo computacional ou instabilidade de treinamento. Caso o modelo híbrido apresente desempenho inferior, custo elevado ou dificuldade de convergência, esses resultados também serão considerados relevantes, pois contribuirão para compreender as limitações práticas da abordagem híbrida quântico-clássica nesse tipo de problema.
+A comparação entre os modelos não terá como objetivo demonstrar superioridade prévia da abordagem híbrida. O foco será analisar, sob o mesmo protocolo experimental, como a CNN clássica, a CNN com gargalo clássico e o modelo híbrido quântico-clássico se comportam em métricas preditivas, custo computacional, estabilidade e limitações de simulação. Caso o modelo híbrido apresente desempenho inferior, custo elevado ou dificuldade de convergência, esses resultados também serão considerados relevantes, pois contribuirão para compreender as limitações práticas da abordagem híbrida quântico-clássica nesse tipo de problema.
 
 % ---------------------------------------------------------------
 \section{Cronograma de trabalho}
@@ -1694,6 +1743,7 @@ O cronograma a seguir apresenta as atividades previstas para o desenvolvimento d
     \centering
     \caption{Cronograma de atividades -- Diagrama de Gantt}
     \label{fig:gantt}
+    \resizebox{\textwidth}{!}{%
     \begin{ganttchart}[
         hgrid,
         vgrid,
@@ -1743,10 +1793,10 @@ O cronograma a seguir apresenta as atividades previstas para o desenvolvimento d
         \ganttbar{Preparação da apresentação}{15}{16} \\
         \ganttmilestone{Entrega final}{16}
 
-    \end{ganttchart}
+    \end{ganttchart}%
+    }
     \legend{Fonte: Elaborado pelo autor.}
 \end{figure}
-```
 
 
 % ---------------------------------------------------------------
@@ -1754,6 +1804,6 @@ O cronograma a seguir apresenta as atividades previstas para o desenvolvimento d
 % ---------------------------------------------------------------
 \postextual
 
-\bibliography{bibliografia-math}
+\bibliography{tcc_math}
 
 \end{document}
