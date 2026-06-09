@@ -98,9 +98,7 @@
 
 \begin{resumo}
 
-Este trabalho tem o objetivo de aprimorar a arquitetura de redes neurais convolucionais feita anteriormente, que conseguia classificar imagens de cancer de mama em três classes (normal, benigna, maligna) com uma precisao de cerca de 70 por cento na media para as três classes. Agora deve ser feito a melhoria nos dois tipos de modelos para o classico conseguir clasificar mais exames radiograficos, e do modelo quântico poder ter resultados além do chute aleatório permitindo uma comparação mais robusta entre os dois tipos de modelos. 
-
-
+Este trabalho propõe um estudo comparativo entre redes neurais convolucionais clássicas e modelos híbridos quântico-clássicos aplicados à classificação de câncer de mama em mamografias. A pesquisa parte de experimentos anteriores em três classes diagnósticas (normal, benigna e maligna), nos quais a arquitetura clássica apresentou desempenho médio próximo de 70\%, enquanto o modelo híbrido ainda permaneceu limitado por instabilidade, custo de simulação e desempenho próximo ao acaso. A proposta consiste em estabelecer um protocolo experimental mais robusto, contemplando preparação dos dados, tratamento do desbalanceamento, definição de baselines clássicos, construção de circuitos quânticos simulados e avaliação por métricas preditivas e computacionais. Busca-se verificar se a inclusão de um componente quântico variacional pode produzir comportamento competitivo em relação a alternativas clássicas equivalentes, sem pressupor vantagem quântica e considerando as restrições atuais de número de qubits, profundidade dos circuitos, tempo de simulação e estabilidade do treinamento. O trabalho não tem finalidade diagnóstica clínica, mas contribui para a análise experimental da viabilidade de arquiteturas híbridas em problemas de visão computacional médica.
 
 \vspace{\onelineskip}
 \noindent
@@ -123,57 +121,50 @@ Este trabalho tem o objetivo de aprimorar a arquitetura de redes neurais convolu
 
 \chapter{Introdução}
 
-O avanço da Inteligência Artificial tem ampliado as possibilidades de aplicação de métodos computacionais em problemas complexos da área da saúde, especialmente em tarefas relacionadas à análise de imagens médicas. Entre essas aplicações, a classificação de mamografias se destaca por envolver um problema de alta relevância social e científica: o apoio à identificação de alterações associadas ao câncer de mama.
+O avanço da Inteligência Artificial tem ampliado o uso de métodos computacionais em problemas complexos da área da saúde, especialmente em tarefas relacionadas à análise de imagens médicas. Entre essas aplicações, a classificação de mamografias possui relevância social e científica por estar associada ao apoio à identificação de alterações relacionadas ao câncer de mama.
 
-As redes neurais convolucionais consolidaram-se como uma das principais abordagens para tarefas de visão computacional, devido à sua capacidade de aprender padrões visuais diretamente a partir das imagens. No entanto, apesar dos avanços obtidos por modelos clássicos de aprendizado profundo, ainda existem desafios importantes relacionados à generalização, ao desbalanceamento de dados, ao custo computacional e à confiabilidade dos resultados em imagens médicas.
+As redes neurais convolucionais consolidaram-se como uma das principais abordagens em visão computacional, pois aprendem padrões visuais diretamente a partir das imagens. Apesar dos avanços obtidos por modelos clássicos de aprendizado profundo, persistem desafios relevantes em aplicações médicas, como generalização entre bases de dados, desbalanceamento de classes, custo computacional, qualidade dos rótulos e confiabilidade dos resultados.
 
-Paralelamente, a computação quântica e o aprendizado de máquina quântico têm despertado interesse como áreas emergentes de pesquisa. Modelos híbridos quântico-clássicos propõem a integração entre etapas clássicas de processamento e circuitos quânticos parametrizados, buscando explorar novas formas de representação da informação. Contudo, sua aplicação em problemas de alta dimensionalidade, como imagens de mamografia, ainda é limitada e exige investigação experimental cuidadosa.
+Paralelamente, a computação quântica e o aprendizado de máquina quântico têm despertado interesse como áreas emergentes de pesquisa. Modelos híbridos quântico-clássicos combinam etapas clássicas de processamento com circuitos quânticos parametrizados, buscando explorar novas formas de representação da informação. No entanto, sua aplicação em problemas de alta dimensionalidade, como imagens de mamografia, ainda é limitada e exige avaliação experimental cuidadosa.
 
-Diante desse cenário, este trabalho propõe um estudo comparativo entre uma arquitetura clássica baseada em redes neurais convolucionais e uma arquitetura híbrida quântico-clássica aplicada à classificação de mamografias digitais. A pesquisa busca avaliar não apenas o desempenho preditivo dos modelos, mas também sua estabilidade, custo computacional e viabilidade prática dentro de um ambiente experimental controlado.
+Diante desse cenário, este trabalho propõe comparar uma arquitetura clássica baseada em redes neurais convolucionais com uma arquitetura híbrida quântico-clássica aplicada à classificação de mamografias digitais. A comparação considera não apenas desempenho preditivo, mas também estabilidade experimental, custo computacional e viabilidade prática em ambiente de simulação.
 
 Assim, este capítulo apresenta o contexto da pesquisa, o problema investigado, a justificativa, os objetivos, a hipótese e as delimitações do trabalho.
 
 \section{Contexto}
 
-O câncer de mama é uma das doenças oncológicas de maior impacto na saúde pública, tanto pela sua elevada incidência quanto pelas consequências clínicas, sociais e econômicas associadas ao diagnóstico e ao tratamento. A detecção precoce é um fator essencial para ampliar as possibilidades de intervenção em estágios iniciais e melhorar o prognóstico das pacientes. Nesse cenário, a mamografia consolidou-se como uma das principais ferramentas de rastreamento, pois permite identificar alterações suspeitas no tecido mamário antes mesmo do surgimento de sintomas clínicos evidentes.
+O câncer de mama é uma das doenças oncológicas de maior impacto na saúde pública, tanto por sua elevada incidência quanto pelas consequências clínicas, sociais e econômicas associadas ao diagnóstico e ao tratamento. A detecção precoce é um fator essencial para ampliar as possibilidades de intervenção em estágios iniciais e melhorar o prognóstico das pacientes. Nesse cenário, a mamografia consolidou-se como uma das principais ferramentas de rastreamento, pois permite identificar alterações suspeitas no tecido mamário antes do surgimento de sintomas clínicos evidentes.
 
 Apesar de sua importância, a interpretação de mamografias é uma tarefa complexa. O exame pode apresentar achados sutis, como massas, microcalcificações, assimetrias e distorções arquiteturais, que nem sempre são facilmente distinguíveis do tecido mamário normal. Além disso, fatores como densidade mamária, qualidade da aquisição, variação entre equipamentos, diferenças anatômicas entre pacientes e alto volume de exames analisados por especialistas tornam a leitura mamográfica um processo desafiador.
 
-Nesse contexto, técnicas de Inteligência Artificial têm sido investigadas como ferramentas de apoio à análise de imagens médicas. Entre essas técnicas, as redes neurais convolucionais destacam-se por sua capacidade de extrair automaticamente padrões espaciais de imagens, sendo amplamente utilizadas em tarefas de classificação, detecção e segmentação. Em mamografias, esses modelos podem auxiliar na identificação de padrões associados a exames normais, alterações benignas e achados malignos, contribuindo para estudos voltados ao apoio computacional à decisão médica.
+Nesse contexto, técnicas de Inteligência Artificial têm sido investigadas como ferramentas de apoio à análise de imagens médicas. Entre elas, as redes neurais convolucionais destacam-se por extrair automaticamente padrões espaciais das imagens, sendo amplamente utilizadas em tarefas de classificação, detecção e segmentação. Em mamografias, esses modelos podem auxiliar na identificação de padrões associados a exames normais, alterações benignas e achados malignos, contribuindo para estudos voltados ao apoio computacional à decisão médica.
 
-Paralelamente ao avanço dos modelos clássicos de aprendizado profundo, a computação quântica passou a ser investigada como uma alternativa emergente para problemas de aprendizado de máquina. No campo do Aprendizado de Máquina Quântico, modelos híbridos quântico-clássicos combinam etapas clássicas de processamento com circuitos quânticos parametrizados, buscando explorar novas formas de representação e processamento da informação. Entretanto, essas abordagens ainda estão em estágio exploratório, especialmente em aplicações com imagens médicas de alta dimensão, como mamografias.
+Ao mesmo tempo, a computação quântica passou a ser investigada como alternativa emergente para problemas de aprendizado de máquina. No campo do Aprendizado de Máquina Quântico, modelos híbridos quântico-clássicos combinam processamento clássico com circuitos quânticos parametrizados, buscando explorar novas formas de representação e transformação da informação. Entretanto, essas abordagens ainda estão em estágio exploratório, especialmente em aplicações com imagens médicas de alta dimensão.
 
-Diante desse cenário, este trabalho está inserido na interseção entre visão computacional médica, aprendizado profundo e aprendizado de máquina quântico. A pesquisa propõe investigar a classificação de câncer de mama em imagens de mamografia por meio de uma comparação entre redes neurais convolucionais clássicas e arquiteturas híbridas quântico-clássicas. O objetivo é compreender, em uma tarefa específica e controlada, o desempenho, as limitações e a viabilidade prática dessas abordagens, considerando tanto métricas preditivas quanto aspectos computacionais.
+Dessa forma, este trabalho está inserido na interseção entre visão computacional médica, aprendizado profundo e aprendizado de máquina quântico. A pesquisa propõe investigar a classificação de câncer de mama em mamografias por meio de uma comparação controlada entre redes neurais convolucionais clássicas e arquiteturas híbridas quântico-clássicas, considerando métricas preditivas, custo computacional, estabilidade e limitações práticas de simulação.
 
 
-%\section{Problema de pesquisa}
-%
-%Embora redes neurais convolucionais clássicas já apresentem resultados relevantes em tarefas %de classificação de mamografias, ainda existem desafios relacionados à generalização, ao %desbalanceamento das bases de dados, à qualidade dos rótulos, ao custo computacional e à %confiabilidade dos modelos em cenários experimentais controlados. Em imagens médicas, esses %desafios tornam-se ainda mais sensíveis, pois pequenas regiões da imagem podem conter %informações clinicamente importantes, e erros de classificação podem comprometer a %interpretação do exame.
-%
-%Ao mesmo tempo, modelos híbridos quântico-clássicos têm sido investigados como uma %alternativa emergente para tarefas de aprendizado de máquina, com a proposta de explorar %novas formas de representação dos dados por meio de circuitos quânticos parametrizados. %Entretanto, essas arquiteturas ainda se encontram em estágio exploratório, especialmente em %problemas de classificação de imagens médicas de alta dimensão, como mamografias. Na %literatura, muitos estudos com modelos quânticos ou híbridos ainda são realizados em bases %pequenas, imagens de baixa resolução, tarefas simplificadas ou ambientes simulados, o que %dificulta avaliar sua real viabilidade prática.
-%
-%Dessa forma, o problema central deste trabalho está na ausência de uma avaliação comparativa %controlada entre uma CNN clássica e uma arquitetura híbrida quântico-clássica aplicada à %classificação de mamografias sob o mesmo protocolo experimental. Sem esse tipo de %comparação, torna-se difícil identificar se a inclusão de um componente quântico contribui %de fato para o desempenho do modelo ou se apenas aumenta a complexidade computacional sem %trazer ganhos relevantes.
-%
-%Assim, este trabalho parte do problema de investigar se modelos híbridos quântico-clássicos %podem apresentar desempenho competitivo em relação a CNNs clássicas na classificação de %câncer de mama em mamografias, considerando não apenas métricas preditivas, mas também %estabilidade, custo computacional e limitações práticas de simulação.
+\section{Problema de pesquisa}
+
+Embora redes neurais convolucionais clássicas já apresentem resultados relevantes em tarefas de classificação de mamografias, ainda existem desafios relacionados à generalização, ao desbalanceamento das bases de dados, à qualidade dos rótulos, ao custo computacional e à confiabilidade dos modelos em cenários experimentais controlados. Em imagens médicas, esses desafios tornam-se mais sensíveis porque pequenas regiões da imagem podem conter informações clinicamente importantes, e erros de classificação podem afetar a interpretação do exame.
+
+Ao mesmo tempo, modelos híbridos quântico-clássicos vêm sendo investigados como alternativa exploratória para tarefas de aprendizado de máquina, com a proposta de representar dados por meio de circuitos quânticos parametrizados. Entretanto, muitos estudos nessa área ainda são realizados em bases pequenas, imagens de baixa resolução, tarefas simplificadas ou ambientes fortemente simulados, o que dificulta avaliar sua viabilidade prática em problemas de maior dimensionalidade, como mamografias.
+
+O problema central deste trabalho está na necessidade de uma comparação controlada entre uma CNN clássica, uma CNN com gargalo clássico e uma arquitetura híbrida quântico-clássica aplicada à classificação de mamografias sob o mesmo protocolo experimental. Sem esse controle, torna-se difícil identificar se a inclusão de um componente quântico contribui de fato para o desempenho do modelo ou se apenas aumenta a complexidade computacional sem trazer ganhos relevantes.
+
+Assim, a pergunta que orienta a pesquisa é: modelos híbridos quântico-clássicos simulados podem apresentar desempenho, estabilidade e viabilidade computacional competitivos em relação a baselines clássicos na classificação de mamografias digitais?
 
 \section{Justificativa}
 
-A justificativa deste trabalho pode ser compreendida em três dimensões. A primeira é a relevância social do tema. O câncer de mama possui alta incidência e depende fortemente de estratégias de detecção precoce e apoio à decisão clínica, o que torna pertinente investigar métodos computacionais capazes de auxiliar a análise de mamografias \cite{WHO2026BreastCancer}. Ainda que o presente trabalho não tenha objetivo de uso clínico imediato, ele se insere em uma linha de pesquisa com impacto potencial na área de saúde.
+A justificativa deste trabalho pode ser compreendida em três dimensões. A primeira é a relevância social do tema. O câncer de mama possui alta incidência e depende fortemente de estratégias de detecção precoce e apoio à decisão clínica, o que torna pertinente investigar métodos computacionais capazes de auxiliar a análise de mamografias \cite{WHO2026BreastCancer}. Embora o presente trabalho não tenha objetivo de uso clínico imediato, ele se insere em uma linha de pesquisa com impacto potencial na área da saúde.
 
 A segunda dimensão é a relevância acadêmica. O aprendizado profundo consolidou-se como uma abordagem central em visão computacional, mas a adoção de modelos híbridos quântico-clássicos ainda carece de validação comparativa rigorosa, principalmente em aplicações médicas \cite{LeCun2015,Gupta2025QMLDigitalHealth}. Assim, o TCC contribui ao investigar se a integração de componentes quânticos traz benefícios mensuráveis em um problema concreto e de alta relevância.
 
 A terceira dimensão é a lacuna científica identificada. Estudos sobre deep learning em mamografia apontam desempenho promissor, porém também evidenciam limitações de reprodutibilidade e de avaliação em condições realistas \cite{Bhalla2023MammographyReview}. Na direção quântica, trabalhos recentes mostram resultados competitivos em tarefas de classificação de imagens, mas ainda em cenários restritos, com bases menores, forte dependência de simulação e poucas evidências em contextos próximos do uso aplicado \cite{long2025qcqcnn}. Dessa forma, este TCC busca preencher uma lacuna ao propor uma comparação experimental controlada, reprodutível e metodologicamente explícita entre abordagens clássicas e híbridas no domínio da mamografia.
 
-%\section{Pergunta de pesquisa}
-
-% Exemplo:
-% Modelos híbridos quântico-clássicos conseguem apresentar desempenho preditivo,
-% estabilidade experimental e viabilidade computacional competitivos em relação
-% a uma CNN clássica na classificação de mamografias digitais?
-
 \section{Objetivo geral}
 
-Investigar comparativamente o desempenho de CNNs clássicas e modelos híbridos quântico-clássicos na classificação de câncer de mama em imagens de mamografia, considerando métricas de desempenho preditivo, custo computacional, estabilidade experimental e viabilidade prática, com base inicial no cenário atual de três classes e possibilidade de ampliação para uma classificação mais detalhada.
+Investigar comparativamente o desempenho de CNNs clássicas e modelos híbridos quântico-clássicos na classificação de câncer de mama em mamografias, considerando métricas de desempenho preditivo, custo computacional, estabilidade experimental e viabilidade prática, com base inicial em um cenário de três classes e possibilidade de ampliação para classificações mais detalhadas.
 
 
 \section{Objetivos específicos}
@@ -189,28 +180,17 @@ Investigar comparativamente o desempenho de CNNs clássicas e modelos híbridos 
     \item Discutir criticamente as vantagens, limitações e condições de viabilidade da abordagem híbrida quântico-clássica.
 \end{enumerate}
 
-
-
-% Exemplo:
-% A hipótese deste trabalho é que o desempenho de modelos híbridos quântico-clássicos
-% em mamografias depende fortemente da forma de codificação dos dados, da dimensão
-% do vetor de características projetado para o circuito quântico, do número de qubits
-% e da profundidade do circuito.
 \section{Hipótese}
 
-Parte-se da hipótese de que uma arquitetura híbrida quântico-clássica, utilizando circuitos quânticos simulados como componente treinável complementar às camadas clássicas de uma rede neural, pode apresentar desempenho competitivo em relação a uma CNN clássica na tarefa de classificação de mamografias. Essa comparação será realizada sob um protocolo experimental controlado, utilizando a mesma base de dados, critérios equivalentes de pré-processamento, divisão dos dados, métricas de avaliação e execução no mesmo ambiente computacional.
+Parte-se da hipótese de que uma arquitetura híbrida quântico-clássica, utilizando circuitos quânticos simulados como componente treinável complementar às camadas clássicas de uma rede neural, pode apresentar desempenho competitivo em relação a baselines clássicos na tarefa de classificação de mamografias. Essa comparação será realizada sob um protocolo experimental controlado, utilizando a mesma base de dados, critérios equivalentes de pré-processamento, divisão dos dados, métricas de avaliação e execução no mesmo ambiente computacional.
 
 No entanto, não se pressupõe superioridade geral da abordagem quântica. Considerando as limitações atuais da computação quântica e da simulação de circuitos quânticos, espera-se que a viabilidade prática dos modelos híbridos seja condicionada por fatores como custo computacional, número reduzido de qubits, sensibilidade a hiperparâmetros, estratégia de codificação dos dados clássicos em estados quânticos e restrições típicas de dispositivos NISQ. Assim, a hipótese central do trabalho não é demonstrar vantagem quântica definitiva, mas investigar em quais condições a abordagem híbrida pode ser competitiva, limitada ou inviável em comparação com modelos clássicos de aprendizado profundo.
 
 \section{Delimitações do trabalho}
 
-% Explique o que o trabalho não pretende fazer:
-% não será diagnóstico clínico real;
-% não será validado em hospital;
-% usará simulador quântico;
-% começará com três classes: normal, benigno e maligno;
-% ampliação de classes dependerá dos rótulos disponíveis.
-Este trabalho será delimitado como um estudo experimental comparativo em visão computacional. A tarefa será formulada como classificação supervisionada de imagens de mamografia, inicialmente em três classes: normal, benigno e maligno. A comparação será realizada entre uma CNN clássica e uma arquitetura híbrida quântico-clássica, mantendo-se constantes a base de dados, o pré-processamento, os critérios de divisão dos dados e as métricas de avaliação.
+Este trabalho será delimitado como um estudo experimental comparativo em visão computacional. A tarefa será formulada como classificação supervisionada de imagens de mamografia, inicialmente em três classes: normal, benigno e maligno. A comparação será realizada entre uma CNN clássica, uma CNN com gargalo clássico e uma arquitetura híbrida quântico-clássica, mantendo-se constantes a base de dados, o pré-processamento, os critérios de divisão dos dados e as métricas de avaliação.
+
+O estudo não pretende propor um sistema de diagnóstico clínico, substituir a avaliação médica ou validar um modelo em ambiente hospitalar. Os circuitos quânticos serão avaliados por simulação clássica, com número reduzido de qubits e profundidade limitada. A eventual ampliação do número de classes dependerá da disponibilidade e da consistência dos rótulos presentes na base utilizada.
 
 % ---------------------------------------------------------------
 % CAPÍTULO 2 - REVISÃO BIBLIOGRÁFICA
@@ -1218,11 +1198,13 @@ em que \(\alpha\) e \(\beta\) são amplitudes complexas que satisfazem a condiç
 
 Os valores \(|\alpha|^2\) e \(|\beta|^2\) representam as probabilidades de observar, após a medição, os estados \(\ket{0}\) e \(\ket{1}\), respectivamente. Assim, antes da medição, o qubit pode estar em superposição; após a medição, o resultado observado será clássico, assumindo um dos estados possíveis.
 
+Na prática, circuitos quânticos são descritos por sequências de portas aplicadas a qubits e, ao final, por operações de medição que produzem bits clássicos. A documentação da IBM Quantum para o Qiskit apresenta diferentes formas de visualização desses circuitos, incluindo representações geradas por Matplotlib e por \LaTeX, como no exemplo da Figura~\ref{fig:ibm_visualizacao_circuito}.
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{../figuras/qubit_portas_probabilidades.png}
-    \caption{Representação visual de um qubit em superposição, circuitos quânticos simples e distribuições de probabilidade após a aplicação de portas como \(H\), \(X\), \(R_Y\) e CNOT. A medição transforma o estado quântico em resultados clássicos probabilísticos. Fonte: elaborado pelo autor com base na documentação da IBM Quantum sobre circuitos e medição \cite{ibmQuantumCircuitLibrary2026,ibmQuantumMeasureQubits2026}.}
-    \label{fig:qubit_portas_probabilidades}
+    \includegraphics[width=0.72\textwidth]{../figuras/ibm_visualize_circuits_latex.png}
+    \caption{Exemplo de circuito quântico com portas \(H\), \(X\), CNOT e operações de medição, apresentado na documentação da IBM Quantum sobre visualização de circuitos no Qiskit. Fonte: IBM Quantum \cite{ibmQuantumVisualizeCircuits2026}.}
+    \label{fig:ibm_visualizacao_circuito}
 \end{figure}
 
 Para um sistema com \(n\) qubits, o estado quântico pertence a um espaço de dimensão \(2^n\). Por exemplo, dois qubits possuem quatro estados base:
@@ -1362,14 +1344,14 @@ em que cada camada \(L_i\) combina parâmetros treináveis e dados de entrada. E
 
 No contexto de imagens médicas, a codificação é um dos maiores desafios para modelos quânticos. Uma mamografia redimensionada para \(1024 \times 1024\) pixels possui mais de um milhão de valores de intensidade, enquanto circuitos quânticos simuláveis geralmente utilizam poucos qubits. Por isso, modelos híbridos normalmente utilizam uma etapa clássica de extração ou compressão de características antes da codificação quântica.
 
-Além das codificações usadas diretamente em QML, também existem representações quânticas específicas para imagens. Métodos como Qubit Lattice, FRQI e NEQR buscam representar posição e intensidade dos pixels por meio de estados quânticos, amplitudes, ângulos ou registradores binários. Esses modelos ajudam a compreender os desafios de medição e escalabilidade quando se tenta representar imagens em circuitos quânticos \cite{okada2025measurementlimits}.
-
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{../figuras/codificacoes_quanticas_imagem.png}
-    \caption{Comparação esquemática entre três representações quânticas de imagens: Qubit Lattice, FRQI e NEQR. A figura destaca diferentes formas de associar posição e intensidade dos pixels a estados ou registradores quânticos. Fonte: elaborado pelo autor com base em Okada et al. \cite{okada2025measurementlimits}.}
-    \label{fig:codificacoes_quanticas_imagem}
+    \includegraphics[width=\textwidth]{../figuras/qiskit_ml_torch_connector_qnn_circuit.png}
+    \caption{Exemplo de circuito usado em um modelo híbrido no Qiskit Machine Learning, combinando um \textit{feature map} para codificação dos dados com um \textit{ansatz} parametrizado. Fonte: Qiskit Machine Learning \cite{qiskitMachineLearningTorchConnector2026}.}
+    \label{fig:qiskit_ml_feature_map_ansatz}
 \end{figure}
+
+Além das codificações usadas diretamente em QML, também existem representações quânticas específicas para imagens. Métodos como Qubit Lattice, FRQI e NEQR buscam representar posição e intensidade dos pixels por meio de estados quânticos, amplitudes, ângulos ou registradores binários. Esses modelos ajudam a compreender os desafios de medição e escalabilidade quando se tenta representar imagens em circuitos quânticos \cite{okada2025measurementlimits}.
 
 \subsection{Modelos variacionais quânticos}
 
@@ -1416,9 +1398,9 @@ O vetor \(z(x,\theta)\) pode ser utilizado diretamente para classificação ou e
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{../figuras/circuito_variacional_exemplo.png}
-    \caption{Fluxo simplificado de um circuito variacional: os dados são codificados no circuito, o ansatz parametrizado transforma o estado, as medições produzem valores clássicos e um otimizador ajusta os parâmetros. Fonte: elaborado pelo autor com base em Cerezo et al. \cite{cerezo2021variational} e na documentação do circuito \textit{real amplitudes} do Qiskit \cite{ibmQuantumRealAmplitudes2026}.}
-    \label{fig:circuito_variacional_exemplo}
+    \includegraphics[width=0.78\textwidth]{../figuras/ibm_real_amplitudes_1.png}
+    \caption{Circuito \textit{real amplitudes} com camadas de rotações \(R_Y\) e portas CNOT, usado como exemplo de \textit{ansatz} parametrizado na documentação do Qiskit. Fonte: IBM Quantum \cite{ibmQuantumRealAmplitudes2026}.}
+    \label{fig:ibm_real_amplitudes}
 \end{figure}
 
 A escolha do ansatz é uma decisão importante. Um ansatz muito simples pode não ter capacidade suficiente para representar padrões complexos; por outro lado, um ansatz muito profundo pode ser difícil de treinar e mais sensível a ruído. Essa tensão entre expressividade, profundidade, número de qubits e treinabilidade é uma das principais questões em modelos variacionais quânticos.
@@ -1453,14 +1435,18 @@ Em imagens médicas de alta dimensão, como mamografias, essas limitações são
 
 Como este trabalho será desenvolvido em ambiente clássico, os circuitos quânticos serão avaliados por simulação. Essa escolha permite construir, testar e comparar circuitos parametrizados sem depender de acesso contínuo a hardware quântico real, mas impõe limites práticos de memória, tempo de execução, número de qubits e profundidade dos circuitos.
 
-O Qiskit será utilizado como ferramenta de apoio para a construção e simulação dos circuitos quânticos variacionais. Em especial, simuladores como o Qiskit Aer são relevantes para estudos experimentais porque permitem executar circuitos com controle sobre número de \textit{shots}, medições, estados simulados e custo computacional \cite{faj2023warpspeed}. Estudos recentes também discutem fluxos híbridos quântico-clássicos e aceleração por GPU em simulações quânticas, incluindo o uso de ferramentas como cuQuantum \cite{chen2024quantumhpcworkflow,bayraktar2023cuquantum}. Ainda assim, os resultados obtidos por simulação devem ser interpretados com cautela, pois podem não refletir integralmente ruído, conectividade, calibração e restrições operacionais de dispositivos NISQ reais.
+O Qiskit será utilizado como ferramenta de apoio para a construção e simulação dos circuitos quânticos variacionais. Em especial, simuladores como o Qiskit Aer são relevantes para estudos experimentais porque permitem executar circuitos com controle sobre número de \textit{shots}, medições, estados simulados e custo computacional. A documentação da IBM Quantum descreve o uso do Qiskit Aer com primitivas como \textit{Estimator} e \textit{Sampler}, incluindo simulações exatas e ruidosas \cite{ibmQuantumAerSimulation2026}. Estudos recentes também discutem fluxos híbridos quântico-clássicos e aceleração por GPU em simulações quânticas, incluindo o uso de ferramentas como cuQuantum \cite{faj2023warpspeed,chen2024quantumhpcworkflow,bayraktar2023cuquantum}.
+
+No contexto deste trabalho, o cuQuantum deve ser entendido como uma possibilidade de aceleração da simulação clássica dos circuitos quânticos em GPUs NVIDIA, e não como uma mudança na formulação matemática do modelo híbrido. A Figura~\ref{fig:qiskit_aer_cuquantum_workflow} ilustra esse papel no fluxo do Qiskit Aer: o circuito é otimizado pelo transpilador, executado pelo simulador de vetor de estado e pode usar diferentes backends, incluindo CPU, GPU com Thrust e GPU com cuQuantum.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{../figuras/simulacao_qiskit_fluxo.png}
-    \caption{Fluxo simplificado de simulação de circuitos quânticos com Qiskit/Aer. O circuito é executado em um backend simulado, produzindo estados ou contagens de medição; o custo cresce com o número de qubits, profundidade e número de execuções. Fonte: elaborado pelo autor com base em Faj et al., Chen et al. e Bayraktar et al. \cite{faj2023warpspeed,chen2024quantumhpcworkflow,bayraktar2023cuquantum}.}
-    \label{fig:simulacao_qiskit_fluxo}
+    \includegraphics[width=\textwidth]{../figuras/qiskit_aer_cuquantum_workflow_faj2023.png}
+    \caption{Fluxo de simulação de vetor de estado no Qiskit Aer, incluindo backends CPU, GPU com Thrust e GPU com cuQuantum. Fonte: extraído de Faj et al. \cite{faj2023warpspeed}.}
+    \label{fig:qiskit_aer_cuquantum_workflow}
 \end{figure}
+
+Ainda assim, os resultados obtidos por simulação devem ser interpretados com cautela, pois podem não refletir integralmente ruído, conectividade, calibração e restrições operacionais de dispositivos NISQ reais.
 
 
 \section{Modelos híbridos quântico-clássicos}
@@ -1470,13 +1456,7 @@ Modelos híbridos quântico-clássicos combinam componentes de aprendizado de m�
 Em tarefas de classificação de imagens, uma estratégia comum é usar uma rede neural clássica, especialmente uma CNN, para extrair características visuais da imagem. Em seguida, essas características são projetadas para uma dimensão compatível com o número de qubits e codificadas em um circuito quântico. O circuito atua como uma camada variacional ou transformadora, e suas saídas são processadas por camadas clássicas responsáveis pela classificação final.
 
 Essa estrutura permite investigar se o componente quântico contribui para a representação dos dados ou para a separação entre classes. No entanto, a simples inclusão de um circuito quântico não garante ganho de desempenho. A contribuição do bloco quântico precisa ser avaliada de forma controlada, comparando-o com baselines clássicos equivalentes.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{../figuras/modelo_hibrido_quantico_classico.png}
-    \caption{Esquema geral de uma arquitetura híbrida quântico-clássica para classificação de mamografias. A CNN extrai características, uma projeção reduz a dimensão, o circuito quântico processa a representação compacta e uma camada clássica final produz as probabilidades das classes. Fonte: elaborado pelo autor com base em propostas de modelos híbridos quântico-clássicos \cite{long2025qcqcnn,schetakis2022qmlframeworks}.}
-    \label{fig:modelo_hibrido_quantico_classico}
-\end{figure}
+Essa integração entre redes neurais clássicas e componentes quânticos também aparece na documentação do Qiskit Machine Learning, que exemplifica o uso do \textit{TorchConnector} para incorporar uma rede neural quântica a um fluxo de treinamento em PyTorch \cite{qiskitMachineLearningTorchConnector2026}.
 
 \subsection{Arquitetura híbrida CNN--circuito quântico}
 
